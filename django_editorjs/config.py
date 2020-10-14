@@ -3,6 +3,9 @@ from secrets import token_urlsafe
 
 from django.conf import settings
 
+
+DEBUG = getattr(settings, "DEBUG", False)
+
 EDITORJS_IMAGE_UPLOAD_PATH = str(getattr(
     settings,
     'EDITORJS_IMAGE_UPLOAD_PATH',
