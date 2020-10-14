@@ -1,0 +1,83 @@
+div[data-editorjs-holder] {
+    display: inline-block;
+    width: 100%;
+    max-width: 750px;
+    padding: 1.5em 1em;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    background-color: #fcfeff;
+}
+
+.codex-editor .ce-rawtool__textarea {
+    background-color: #010e15;
+    color: #ccced2;
+}
+
+.codex-editor .cdx-list {
+    margin: 0;
+    padding-left: 32px;
+    outline: none;
+}
+
+.codex-editor .cdx-list__item {
+    padding: 8px;
+    line-height: 1.4em;
+    list-style: inherit;
+}
+
+.codex-editor .cdx-checklist__item-text {
+    align-self: center;
+}
+
+.codex-editor .ce-header {
+    padding: 1em 0;
+    margin: 0;
+    margin-bottom: -1em;
+    line-height: 1.4em;
+    outline: none;
+    background: transparent;
+    color: #000;
+    font-weight: 800;
+    text-transform: initial;
+}
+
+.codex-editor h2.ce-header {
+    font-size: 1.5em;
+}
+
+.codex-editor h3.ce-header {
+    font-size: 1.3em;
+}
+
+.codex-editor h4.ce-header {
+    font-size: 1.1em;
+}
+
+.codex-editor blockquote {
+    border: initial;
+    margin: initial;
+    color: initial;
+    font-size: inherit;
+}
+
+.codex-editor .wrapper .cdx-button {
+    display: none;
+}
+
+.codex-editor .link-tool__progress {
+    float: initial;
+    width: 100%;
+    line-height: initial;
+    padding: initial;
+}
+
+@media (max-width: 767px) {
+    div[data-editorjs-holder] {
+        width: auto;
+    }
+
+    .aligned .form-row,
+    .aligned .form-row > div {
+        flex-direction: column;
+    }
+}

@@ -1,0 +1,11 @@
+/.DS_Store
+/.vscode
+
+venv/
+dist/
+__pycache__
+
+#egg's specific
+*.egg-info
+
+db.sqlite3

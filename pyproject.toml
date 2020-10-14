@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "django-editorjs"
+version = "0.1.0"
+description = "Django plugin for using Editor.js"
+authors = ["Ilya Kotlyakov <m@2ik>"]
+repository = "https://github.com/2ik/django-editorjs"
+documentation = "https://github.com/2ik/django-editorjs"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.6"
+
+[tool.poetry.dev-dependencies]
+Django = "^3.0.0"
+pylint = "^2.6.0"
+autopep8 = "^1.5.4"
+psycopg2 = "^2.8.6"
+pylint-django = "^2.3.0"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
