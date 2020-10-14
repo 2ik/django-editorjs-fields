@@ -2,10 +2,28 @@
 name = "django-editorjs"
 version = "0.1.0"
 description = "Django plugin for using Editor.js"
-authors = ["Ilya Kotlyakov <m@2ik>"]
+authors = ["Ilya Kotlyakov <m@2ik.ru>"]
+license = "MIT"
 repository = "https://github.com/2ik/django-editorjs"
 documentation = "https://github.com/2ik/django-editorjs"
 readme = "README.md"
+keywords = ["editorjs", "django-editor", "django-wysiwyg", "wysiwyg", "django-admin"]
+
+classifiers = [
+    "Framework :: Django",
+    "Framework :: Django :: 3.0",
+    "Framework :: Django :: 3.1",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+]
+
+include = [
+    "LICENSE",
+]
 
 [tool.poetry.dependencies]
 python = "^3.6"
