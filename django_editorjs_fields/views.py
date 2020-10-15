@@ -5,11 +5,9 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
-from django_editorjs.config import (EDITORJS_IMAGE_NAME,
-                                    EDITORJS_IMAGE_NAME_ORIGINAL,
-                                    EDITORJS_IMAGE_NAME_POSTFIX,
-                                    EDITORJS_IMAGE_UPLOAD_PATH)
-from django_editorjs.utils import storage
+from .config import (EDITORJS_IMAGE_NAME, EDITORJS_IMAGE_NAME_ORIGINAL,
+                     EDITORJS_IMAGE_NAME_POSTFIX, EDITORJS_IMAGE_UPLOAD_PATH)
+from .utils import storage
 
 
 class ImageUploadView(View):

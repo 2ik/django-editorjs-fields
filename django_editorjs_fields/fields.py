@@ -2,9 +2,8 @@ from django.core import checks
 from django.db.models import Field
 from django.forms import Textarea
 
-from django_editorjs.widgets import EditorJsWidget
-
 from .config import DEBUG
+from .widgets import EditorJsWidget
 
 try:
     # pylint: disable=ungrouped-imports
@@ -45,11 +44,13 @@ class EditorJsFieldMixin:
 
 
 class EditorJsTextField(EditorJsFieldMixin, FieldMixin):
+    # pylint: disable=useless-super-delegation
     def __init__(self, plugins=None, tools=None, **kwargs):
         super().__init__(plugins, tools, **kwargs)
 
 
 class EditorJsJSONField(EditorJsFieldMixin, JSONField if HAS_JSONFIELD else FieldMixin):
+    # pylint: disable=useless-super-delegation
     def __init__(self, plugins=None, tools=None, **kwargs):
         super().__init__(plugins, tools, **kwargs)
 

@@ -20,5 +20,5 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('editorjs/', include('django_editorjs.urls')),
+    path('editorjs/', include('django_editorjs_fields.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

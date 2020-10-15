@@ -1,5 +1,5 @@
 from django.db import models
-from django_editorjs import EditorJsJSONField, EditorJsTextField
+from django_editorjs_fields import EditorJsJSONField, EditorJsTextField
 
 
 class Post(models.Model):

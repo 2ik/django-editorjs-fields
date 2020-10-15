@@ -41,7 +41,7 @@ DEFAULT_APPS = [
 
 INSTALLED_APPS = DEFAULT_APPS + [
     'blog.apps.BlogConfig',
-    'django_editorjs',
+    'django_editorjs_fields',
 ]
 
 MIDDLEWARE = [

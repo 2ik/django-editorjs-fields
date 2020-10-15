@@ -7,15 +7,15 @@ Django plugin for using [Editor.js](https://editorjs.io/)
 ## Installation
 
 ```bash
-pip install django-editorjs
+pip install django-editorjs-fields
 ```
 
-Add django_editorjs to INSTALLED_APPS in settings.py for your project:
+Add django_editorjs_fields to INSTALLED_APPS in settings.py for your project:
 ```python
 # settings.py
 INSTALLED_APPS = [
     ...
-    'django_editorjs',
+    'django_editorjs_fields',
 ]
 ```
 
@@ -25,7 +25,7 @@ Add code in your model
 ```python
 # models.py
 from django.db import models
-from django_editorjs import EditorJsJSONField, EditorJsTextField  # import
+from django_editorjs_fields import EditorJsJSONField, EditorJsTextField  # import
 
 
 class Post(models.Model):
@@ -40,7 +40,7 @@ Or add custom Editor.js plugins and configs ([List plugins](https://github.com/e
 ```python
 # models.py
 from django.db import models
-from django_editorjs import EditorJsJSONField, EditorJsTextField  # import
+from django_editorjs_fields import EditorJsJSONField, EditorJsTextField  # import
 
 
 class Post(models.Model):
@@ -70,7 +70,7 @@ class Post(models.Model):
 
 ```
 
-If you want to upload images to the editor then add django_editorjs.urls to urls.py for your project:
+If you want to upload images to the editor then add django_editorjs_fields.urls to urls.py for your project:
 ```python
 # urls.py
 from django.contrib import admin
@@ -80,13 +80,13 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('editorjs/', include('django_editorjs.urls')),
+    path('editorjs/', include('django_editorjs_fields.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 ```
 
-See an example of how you can work with the plugin [here](https://github.com/2ik/django-editorjs/blob/main/example)
+See an example of how you can work with the plugin [here](https://github.com/2ik/django-editorjs-fields/blob/main/example)
 
 
 ## Support and updates
 
-Use github issues https://github.com/2ik/django-editorjs/issues
+Use github issues https://github.com/2ik/django-editorjs-fields/issues
