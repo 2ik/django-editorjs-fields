@@ -2,6 +2,7 @@ import json
 from re import match
 
 from django.forms import Media, widgets
+from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 
 from .config import DEFAULT_CONFIG_PLUGINS, DEFAULT_PLUGINS
@@ -14,9 +15,8 @@ class EditorJsWidget(widgets.Textarea):
         self.tools = tools or {}
         super().__init__(**kwargs)
 
-    @property
+    @cached_property
     def media(self):
-
         plugins = self.plugins
         custom_tools = self.tools
         _tools = {}
