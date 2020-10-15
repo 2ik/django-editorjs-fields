@@ -1,6 +1,4 @@
-import traceback
-
-import django
+from django.core import checks
 from django.db.models import Field
 from django.forms import Textarea
 
@@ -12,12 +10,9 @@ try:
     # pylint: disable=ungrouped-imports
     from django.db.models import JSONField
 except ImportError:
-    pass
-
-NEW_VERSION = False
-
-if django.VERSION[0] == 3 and django.VERSION[1] >= 1:
-    NEW_VERSION = True
+    HAS_JSONFIELD = False
+else:
+    HAS_JSONFIELD = True
 
 
 class FieldMixin(Field):
@@ -52,16 +47,22 @@ class EditorJsTextField(EditorJsFieldMixin, FieldMixin):
         super().__init__(plugins, tools, **kwargs)
 
 
-class EditorJsJSONField(EditorJsFieldMixin, JSONField if NEW_VERSION else FieldMixin):
+class EditorJsJSONField(EditorJsFieldMixin, JSONField if HAS_JSONFIELD else FieldMixin):
     def __init__(self, plugins=None, tools=None, **kwargs):
-        if not NEW_VERSION and DEBUG:
-            print()
-            print('\x1b[0;30;43m {}\x1b[0m'.format(
-                'Warning: you don\'t support JSONField, ' +
-                'please use EditorJsTextField instead of EditorJsJSONField'
-            ))
-            print('\x1b[2;34;93m{}\x1b[0m'.format(
-                traceback.format_stack()[-3:][0]
-            ))
-            print()
         super().__init__(plugins, tools, **kwargs)
+
+    def check(self, **kwargs):
+        errors = super().check(**kwargs)
+        errors.extend(self._check_supported_json())
+        return errors
+
+    def _check_supported_json(self):
+        if not HAS_JSONFIELD and DEBUG:
+            return [
+                checks.Warning(
+                    'You don\'t support JSONField, please use'
+                    'EditorJsTextField instead of EditorJsJSONField',
+                    obj=self
+                )
+            ]
+        return []
