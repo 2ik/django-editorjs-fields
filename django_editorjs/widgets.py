@@ -42,10 +42,10 @@ class EditorJsWidget(widgets.Textarea):
             js_list.append('https://cdn.jsdelivr.net/combine/npm/' +
                            ',npm/'.join(plugins))
 
-        js_list.append('django-editorjs.js')
+        js_list.append('admin/2ik/django-editorjs/js/django-editorjs.js')
 
         return Media(
-            css={'all': ['django-editorjs.css']},
+            css={'all': ['admin/2ik/django-editorjs/css/django-editorjs.css']},
             js=js_list
         )
 

@@ -8,11 +8,13 @@ from .config import DEBUG
 
 try:
     # pylint: disable=ungrouped-imports
-    from django.db.models import JSONField
+    from django.db.models import JSONField  # Django >= 3.1
 except ImportError:
     HAS_JSONFIELD = False
 else:
     HAS_JSONFIELD = True
+
+__all__ = ['EditorJsTextField', 'EditorJsJSONField']
 
 
 class FieldMixin(Field):
