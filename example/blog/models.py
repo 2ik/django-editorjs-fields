@@ -26,12 +26,8 @@ class Post(models.Model):
             }
         },
         null=True,
-        blank=True
+        blank=True,
     )
     body_textfield = EditorJsTextField(
-        plugins=[
-            "@editorjs/image"
-        ],
-        null=True,
-        blank=True
+        plugins=["@editorjs/image"], null=True, blank=True
     )

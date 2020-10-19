@@ -32,7 +32,6 @@ python = "^3.6"
 Django = "^3.0.0"
 pylint = "^2.6.0"
 autopep8 = "^1.5.4"
-psycopg2 = "^2.8.6"
 pylint-django = "^2.3.0"
 
 [build-system]

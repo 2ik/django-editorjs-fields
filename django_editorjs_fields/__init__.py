@@ -1,7 +1,6 @@
-__version__ = "0.1.1"
+__version__ = "0.1.9"
 
-from .fields import EditorJsTextField, EditorJsJSONField
+from .fields import EditorJsJSONField, EditorJsTextField
 from .widgets import EditorJsWidget
 
-__all__ = ("EditorJsTextField", "EditorJsJSONField",
-           "EditorJsWidget", "__version__")
+__all__ = ("EditorJsTextField", "EditorJsJSONField", "EditorJsWidget", "__version__")

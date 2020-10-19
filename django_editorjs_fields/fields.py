@@ -18,21 +18,22 @@ __all__ = ['EditorJsTextField', 'EditorJsJSONField']
 
 class FieldMixin(Field):
     def get_internal_type(self):
-        return "TextField"
+        return 'TextField'
 
 
 class EditorJsFieldMixin:
     def __init__(self, plugins=None, tools=None, **kwargs):
         self.plugins = plugins
         self.tools = tools
-        self.version = kwargs.pop('version', '2.18.0')
+        self.version = kwargs.pop('version', '2.19.0')
         self.use_editor_js = kwargs.pop('use_editor_js', True)
         super().__init__(**kwargs)
 
     def formfield(self, **kwargs):
         if self.use_editor_js:
             widget = EditorJsWidget(
-                plugins=self.plugins, tools=self.tools, version=self.version)
+                plugins=self.plugins, tools=self.tools, version=self.version
+            )
         else:
             widget = Textarea()
 
@@ -65,7 +66,7 @@ class EditorJsJSONField(EditorJsFieldMixin, JSONField if HAS_JSONFIELD else Fiel
                 checks.Warning(
                     'You don\'t support JSONField, please use'
                     'EditorJsTextField instead of EditorJsJSONField',
-                    obj=self
+                    obj=self,
                 )
             ]
         return []

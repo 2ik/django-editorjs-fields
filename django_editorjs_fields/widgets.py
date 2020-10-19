@@ -35,19 +35,18 @@ class EditorJsWidget(widgets.Textarea):
         self.tools = _tools
 
         js_list = [
-            'https://cdn.jsdelivr.net/npm/@editorjs/editorjs@' + self.version,
+            '//cdn.jsdelivr.net/npm/@editorjs/editorjs@'
+            + self.version  # default plugin
         ]
 
         if plugins:
-            js_list.append('https://cdn.jsdelivr.net/combine/npm/' +
-                           ',npm/'.join(plugins))
+            js_list += ['//cdn.jsdelivr.net/npm/' + p for p in plugins]
 
         js_list.append('django-editorjs-fields/js/django-editorjs-fields.js')
 
         return Media(
-            css={
-                'all': ['django-editorjs-fields/css/django-editorjs-fields.css']},
-            js=js_list
+            css={'all': ['django-editorjs-fields/css/django-editorjs-fields.css']},
+            js=js_list,
         )
 
     def render(self, name, value, attrs=None, renderer=None):
@@ -57,6 +56,9 @@ class EditorJsWidget(widgets.Textarea):
         <div data-editorjs-holder></div>
         <script>
             initEditorJsField('%s', %s);
-        </script>''' % (attrs.get('id'), json.dumps(self.tools))
+        </script>''' % (
+            attrs.get('id'),
+            json.dumps(self.tools),
+        )
 
         return mark_safe(html)

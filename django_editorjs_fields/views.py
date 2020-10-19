@@ -27,14 +27,11 @@ class ImageUploadView(View):
                 'image/x-png',
                 'image/png',
                 'image/webp',
-                'image/gif'
+                'image/gif',
             ]
             if not the_file.content_type in allowed_types:
                 return JsonResponse(
-                    {
-                        'success': 0,
-                        'message': 'You can only upload images.'
-                    }
+                    {'success': 0, 'message': 'You can only upload images.'}
                 )
 
             # filesize = len(file['content'])
@@ -49,16 +46,10 @@ class ImageUploadView(View):
 
             filename += extension
 
-            path = storage.save(os.path.join(
-                EDITORJS_IMAGE_UPLOAD_PATH, filename), the_file)
+            path = storage.save(
+                os.path.join(EDITORJS_IMAGE_UPLOAD_PATH, filename), the_file
+            )
             link = storage.url(path)
 
-            return JsonResponse(
-                {
-                    'success': 1,
-                    'file': {
-                        "url": link
-                    }
-                }
-            )
+            return JsonResponse({'success': 1, 'file': {"url": link}})
         return JsonResponse({'success': 0})

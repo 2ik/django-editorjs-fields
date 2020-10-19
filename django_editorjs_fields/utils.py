@@ -7,7 +7,7 @@ def get_storage_class():
         getattr(
             settings,
             'EDITORJS_STORAGE_BACKEND',
-            'django.core.files.storage.DefaultStorage'
+            'django.core.files.storage.DefaultStorage',
         )
     )()
 
