@@ -29,7 +29,7 @@ class ImageUploadView(View):
                 'image/webp',
                 'image/gif',
             ]
-            if not the_file.content_type in allowed_types:
+            if the_file.content_type not in allowed_types:
                 return JsonResponse(
                     {'success': 0, 'message': 'You can only upload images.'}
                 )
