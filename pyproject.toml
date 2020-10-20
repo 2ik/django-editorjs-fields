@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-editorjs-fields"
-version = "0.1.9"
+version = "0.2.0"
 description = "Django plugin for using Editor.js"
 authors = ["Ilya Kotlyakov <m@2ik.ru>"]
 license = "MIT"
@@ -10,6 +10,7 @@ readme = "README.md"
 keywords = ["editorjs", "django-editor", "django-wysiwyg", "wysiwyg", "django-admin"]
 
 classifiers = [
+    "Development Status :: 5 - Production/Stable",
     "Operating System :: OS Independent",
     "Intended Audience :: Developers",
     "Framework :: Django",
@@ -22,6 +23,8 @@ classifiers = [
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
 include = [
