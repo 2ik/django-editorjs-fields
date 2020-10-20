@@ -25,15 +25,12 @@ class EditorJsFieldMixin:
     def __init__(self, plugins=None, tools=None, **kwargs):
         self.plugins = plugins
         self.tools = tools
-        self.version = kwargs.pop('version', '2.19.0')
         self.use_editor_js = kwargs.pop('use_editor_js', True)
         super().__init__(**kwargs)
 
     def formfield(self, **kwargs):
         if self.use_editor_js:
-            widget = EditorJsWidget(
-                plugins=self.plugins, tools=self.tools, version=self.version
-            )
+            widget = EditorJsWidget(plugins=self.plugins, tools=self.tools)
         else:
             widget = Textarea()
 

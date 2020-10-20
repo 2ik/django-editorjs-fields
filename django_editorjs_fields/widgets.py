@@ -5,12 +5,11 @@ from django.forms import Media, widgets
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 
-from .config import DEFAULT_CONFIG_PLUGINS, DEFAULT_PLUGINS
+from .config import DEFAULT_CONFIG_PLUGINS, DEFAULT_PLUGINS, EDITORJS_VERSION
 
 
 class EditorJsWidget(widgets.Textarea):
-    def __init__(self, version, plugins=None, tools=None, **kwargs):
-        self.version = version
+    def __init__(self, plugins=None, tools=None, **kwargs):
         self.plugins = DEFAULT_PLUGINS if plugins is None else plugins
         self.tools = tools or {}
         super().__init__(**kwargs)
@@ -36,7 +35,7 @@ class EditorJsWidget(widgets.Textarea):
 
         js_list = [
             '//cdn.jsdelivr.net/npm/@editorjs/editorjs@'
-            + self.version  # default plugin
+            + EDITORJS_VERSION  # default plugin
         ]
 
         if plugins:
@@ -45,7 +44,8 @@ class EditorJsWidget(widgets.Textarea):
         js_list.append('django-editorjs-fields/js/django-editorjs-fields.js')
 
         return Media(
-            css={'all': ['django-editorjs-fields/css/django-editorjs-fields.css']},
+            css={
+                'all': ['django-editorjs-fields/css/django-editorjs-fields.css']},
             js=js_list,
         )
 

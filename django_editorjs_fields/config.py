@@ -5,15 +5,21 @@ from django.conf import settings
 
 DEBUG = getattr(settings, "DEBUG", False)
 
+EDITORJS_VERSION = getattr(settings, "EDITORJS_VERSION", '2.19.0')
+
 EDITORJS_IMAGE_UPLOAD_PATH = str(
     getattr(settings, 'EDITORJS_IMAGE_UPLOAD_PATH', 'uploads/images/')
 ) + datetime.now().strftime("%Y/%m/")
 
-EDITORJS_IMAGE_NAME_ORIGINAL = getattr(settings, "EDITORJS_IMAGE_NAME_ORIGINAL", False)
+EDITORJS_IMAGE_NAME_ORIGINAL = getattr(
+    settings, "EDITORJS_IMAGE_NAME_ORIGINAL", False)
+
 EDITORJS_IMAGE_NAME_POSTFIX = getattr(
     settings, "EDITORJS_IMAGE_NAME_POSTFIX", token_urlsafe(5)
 )
-EDITORJS_IMAGE_NAME = getattr(settings, "EDITORJS_IMAGE_NAME", token_urlsafe(8))
+
+EDITORJS_IMAGE_NAME = getattr(
+    settings, "EDITORJS_IMAGE_NAME", token_urlsafe(8))
 
 DEFAULT_PLUGINS = (
     '@editorjs/paragraph',
