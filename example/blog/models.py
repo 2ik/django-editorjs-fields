@@ -16,6 +16,9 @@ class Post(models.Model):
             "@editorjs/table",
         ],
         tools={
+            "Gist": {
+                "class": "Gist"
+            },
             "Image": {
                 "config": {
                     "endpoints": {
