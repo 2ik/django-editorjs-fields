@@ -1,8 +1,9 @@
 # Editor.js for Django
 
 Django plugin for using [Editor.js](https://editorjs.io/)
-
 > This plugin works fine with JSONField in Django >= 3.1
+
+[![Django Editor.js](https://i.ibb.co/r6xt4HJ/image.png)](https://github.com/2ik/django-editorjs-fields)
 
 [![Python versions](https://img.shields.io/pypi/pyversions/django-editorjs-fields)](https://pypi.org/project/django-editorjs-fields/)
 [![Python versions](https://img.shields.io/pypi/djversions/django-editorjs-fields)](https://pypi.org/project/django-editorjs-fields/)
