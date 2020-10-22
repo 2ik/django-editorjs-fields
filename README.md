@@ -6,7 +6,7 @@ Django plugin for using [Editor.js](https://editorjs.io/)
 
 [![Python versions](https://img.shields.io/pypi/pyversions/django-editorjs-fields)](https://pypi.org/project/django-editorjs-fields/)
 [![Python versions](https://img.shields.io/pypi/djversions/django-editorjs-fields)](https://pypi.org/project/django-editorjs-fields/)
-[![Downloads](https://pepy.tech/badge/django-editorjs-fields/month)](https://pepy.tech/project/django-editorjs-fields/month)
+[![Downloads](https://static.pepy.tech/personalized-badge/django-editorjs-fields?period=total&units=international_system&left_color=grey&right_color=brightgreen&left_text=Downloads)](https://pepy.tech/project/django-editorjs-fields)
 
 ## Installation
 
