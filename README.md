@@ -43,7 +43,47 @@ class Post(models.Model):
 
 Or add custom Editor.js plugins and configs ([List plugins](https://github.com/editor-js/awesome-editorjs))
 
+Example custom field in models.py
+
+```python
+# models.py
+from django.db import models
+from django_editorjs_fields import EditorJsJSONField
+
+
+class Post(models.Model):
+    body_custom = EditorJsJSONField(
+        plugins=[
+            "@editorjs/image",
+            "@editorjs/header",
+            "editorjs-github-gist-plugin",
+            "@editorjs/code@2.6.0",  # version allowed :)
+            "@editorjs/list@latest",
+            "@editorjs/inline-code",
+            "@editorjs/table",
+        ],
+        tools={
+            "Gist": {
+                "class": "Gist"  # Include the plugin class. See docs Editor.js plugins
+            },
+            "Image": {
+                "config": {
+                    "endpoints": {
+                        "byFile": "/editorjs/image_upload/"  # Your custom backend file uploader endpoint
+                    }
+                }
+            }
+        },
+        null=True,
+        blank=True
+    )
+
+```
+
 **django-editorjs-fields** includes this list of Editor.js plugins by default:
+
+<details>
+    <summary>DEFAULT_PLUGINS</summary>
 
 ```python
 DEFAULT_PLUGINS = [
@@ -63,7 +103,13 @@ DEFAULT_PLUGINS = [
     '@editorjs/marker',
     '@editorjs/table',
 ]
+```
+</details>
 
+<details>
+    <summary>DEFAULT_CONFIG_PLUGINS</summary>
+
+```python
 DEFAULT_CONFIG_PLUGINS = {
     '@editorjs/image': {
         'Image': {
@@ -97,41 +143,7 @@ DEFAULT_CONFIG_PLUGINS = {
     '@editorjs/table': {'Table': {'class': 'Table', 'inlineToolbar': True}},
 }
 ```
-
-Example in models.py
-
-```python
-# models.py
-from django.db import models
-from django_editorjs_fields import EditorJsJSONField
-
-
-class Post(models.Model):
-    body_custom = EditorJsJSONField(
-        plugins=[
-            "@editorjs/image",
-            "@editorjs/header",
-            "editorjs-github-gist-plugin",
-            "@editorjs/code@2.6.0",  # version allowed :)
-            "@editorjs/list@latest",
-            "@editorjs/inline-code",
-            "@editorjs/table",
-        ],
-        tools={
-            "Image": {
-                "config": {
-                    "endpoints": {
-                        # Your custom backend file uploader endpoint
-                        "byFile": "/editorjs/image_upload/"
-                    }
-                }
-            }
-        },
-        null=True,
-        blank=True
-    )
-
-```
+</details>
 
 `EditorJsJSONField` accepts all the arguments of `JSONField` class.
 
