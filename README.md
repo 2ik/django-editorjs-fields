@@ -204,7 +204,7 @@ file.
 | `EDITORJS_IMAGE_NAME_ORIGINAL` | To use the original name of the image file?                                     | `False`                                                |
 | `EDITORJS_IMAGE_NAME_POSTFIX`  | Image file name postfix. Ignored when `EDITORJS_IMAGE_NAME_ORIGINAL` is `True`  | `token_urlsafe(5) # from secrets import token_urlsafe` |
 | `EDITORJS_IMAGE_NAME`          | Image file name postfix. Ignored when `EDITORJS_IMAGE_NAME_ORIGINAL` is `False` | `token_urlsafe(8) # from secrets import token_urlsafe` |
-| `EDITORJS_VERSION`             | Version Editor.js                                                               | `2.19.0`                                               |
+| `EDITORJS_VERSION`             | Version Editor.js                                                               | `2.19.1`                                               |
 
 ## Support and updates
 

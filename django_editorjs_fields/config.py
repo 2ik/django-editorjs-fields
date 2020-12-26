@@ -5,7 +5,7 @@ from django.conf import settings
 
 DEBUG = getattr(settings, "DEBUG", False)
 
-EDITORJS_VERSION = getattr(settings, "EDITORJS_VERSION", '2.19.0')
+EDITORJS_VERSION = getattr(settings, "EDITORJS_VERSION", '2.19.1')
 
 EDITORJS_IMAGE_UPLOAD_PATH = str(
     getattr(settings, 'EDITORJS_IMAGE_UPLOAD_PATH', 'uploads/images/')
