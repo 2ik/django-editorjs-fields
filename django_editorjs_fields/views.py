@@ -5,8 +5,8 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
-from .config import (EDITORJS_IMAGE_NAME, EDITORJS_IMAGE_NAME_ORIGINAL,
-                     EDITORJS_IMAGE_NAME_POSTFIX, EDITORJS_IMAGE_UPLOAD_PATH)
+from .config import (IMAGE_NAME, IMAGE_NAME_ORIGINAL, IMAGE_NAME_POSTFIX,
+                     IMAGE_UPLOAD_PATH)
 from .utils import storage
 
 
@@ -39,15 +39,15 @@ class ImageUploadView(View):
 
             filename, extension = os.path.splitext(the_file.name)
 
-            if EDITORJS_IMAGE_NAME_ORIGINAL:
-                filename = filename + EDITORJS_IMAGE_NAME_POSTFIX
+            if IMAGE_NAME_ORIGINAL:
+                filename = filename + IMAGE_NAME_POSTFIX
             else:
-                filename = EDITORJS_IMAGE_NAME
+                filename = IMAGE_NAME
 
             filename += extension
 
             path = storage.save(
-                os.path.join(EDITORJS_IMAGE_UPLOAD_PATH, filename), the_file
+                os.path.join(IMAGE_UPLOAD_PATH, filename), the_file
             )
             link = storage.url(path)
 

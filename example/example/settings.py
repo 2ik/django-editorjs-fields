@@ -134,3 +134,6 @@ STATIC_URL = '/static/'
 MEDIA_URL = "/media/"
 STATIC_ROOT = f'{BASE_DIR}/static/'
 MEDIA_ROOT = f'{BASE_DIR}/media/'
+
+# django_editorjs_fields
+EDITORJS_VERSION = '2.19.0'

@@ -22,17 +22,38 @@ class FieldMixin(Field):
 
 
 class EditorJsFieldMixin:
-    def __init__(self, plugins=None, tools=None, **kwargs):
+    def __init__(self, plugins, tools, **kwargs):
+        self.use_editorjs = kwargs.pop('use_editorjs', True)
         self.plugins = plugins
         self.tools = tools
-        self.use_editor_js = kwargs.pop('use_editor_js', True)
+        self.config = {}
+
+        if 'autofocus' in kwargs:
+            self.config['autofocus'] = kwargs.pop('autofocus')
+        if 'hideToolbar' in kwargs:
+            self.config['hideToolbar'] = kwargs.pop('hideToolbar')
+        if 'inlineToolbar' in kwargs:
+            self.config['inlineToolbar'] = kwargs.pop('inlineToolbar')
+        if 'minHeight' in kwargs:
+            self.config['minHeight'] = kwargs.pop('minHeight')
+        if 'logLevel' in kwargs:
+            self.config['logLevel'] = kwargs.pop('logLevel')
+        if 'placeholder' in kwargs:
+            self.config['placeholder'] = kwargs.pop('placeholder')
+        if 'defaultBlock' in kwargs:
+            self.config['defaultBlock'] = kwargs.pop('defaultBlock')
+        if 'sanitizer' in kwargs:
+            self.config['sanitizer'] = kwargs.pop('sanitizer')
+        if 'i18n' in kwargs:
+            self.config['i18n'] = kwargs.pop('i18n')
+
         super().__init__(**kwargs)
 
     def formfield(self, **kwargs):
-        if self.use_editor_js:
-            widget = EditorJsWidget(plugins=self.plugins, tools=self.tools)
+        if self.use_editorjs:
+            widget = EditorJsWidget(self.plugins, self.tools, self.config, **kwargs)
         else:
-            widget = Textarea()
+            widget = Textarea(**kwargs)
 
         defaults = {'widget': widget}
         defaults.update(kwargs)

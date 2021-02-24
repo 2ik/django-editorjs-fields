@@ -4,20 +4,32 @@ from django_editorjs_fields import EditorJsJSONField, EditorJsTextField
 
 class Post(models.Model):
     body_default = models.TextField()
-    body_editorjs = EditorJsJSONField()
+    body_editorjs = EditorJsJSONField(autofocus=True)
     body_custom = EditorJsJSONField(
         plugins=[
             "@editorjs/image",
             "@editorjs/header",
             "@editorjs/list",
             "editorjs-github-gist-plugin",
+            "editorjs-hyperlink",
             "@editorjs/code",
             "@editorjs/inline-code",
-            "@editorjs/table",
+            "@editorjs/table@1.3.0",
         ],
         tools={
             "Gist": {
                 "class": "Gist"
+            },
+            "Hyperlink": {
+                "class": "Hyperlink",
+                "config": {
+                    "shortcut": 'CMD+L',
+                    "target": '_blank',
+                    "rel": 'nofollow',
+                    "availableTargets": ['_blank', '_self'],
+                    "availableRels": ['author', 'noreferrer'],
+                    "validate": False,
+                }
             },
             "Image": {
                 "config": {
@@ -31,6 +43,6 @@ class Post(models.Model):
         null=True,
         blank=True,
     )
-    body_textfield = EditorJsTextField(
+    body_textfield = EditorJsTextField( # only images and paragraph (default)
         plugins=["@editorjs/image"], null=True, blank=True
     )
