@@ -1,5 +1,4 @@
 function initEditorJsField(field_id, config) {
-  console.log(config)
   const pluginName = "django_editorjs_fields"
   const pluginHelp =
     "Write about the issue here: https://github.com/2ik/django-editorjs-fields/issues"
@@ -105,6 +104,5 @@ function initEditorJsField(field_id, config) {
         console.log("save error: ", error)
       })
   }
-  console.log(editorConfig)
   const editor = new EditorJS(editorConfig)
 }
