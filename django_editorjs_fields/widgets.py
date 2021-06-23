@@ -28,7 +28,7 @@ class EditorJsWidget(widgets.Textarea):
     def __init__(self, plugins, tools, config=None, **kwargs):
         self.plugins = PLUGINS if plugins is None else plugins
         self.tools = tools or {}
-        self.config = config
+        self.config = config if config else {}
 
         super().__init__(**kwargs)
 
@@ -85,12 +85,13 @@ class EditorJsWidget(widgets.Textarea):
         html = super().render(name, value, attrs)
 
         html += '''
-        <div data-editorjs-holder></div>
+        <div data-editorjs-holder
+             id="%(id)s_editorjs_holder" class="editorjs-holder"></div>
         <script>
-            initEditorJsField('%s', %s);
-        </script>''' % (
-            attrs.get('id'),
-            json.dumps(self.configuration()),
-        )
+            initEditorJsField('%(id)s', %(config)s);
+        </script>''' % {
+            'id': attrs.get('id'),
+            'config': json.dumps(self.configuration()),
+        }
 
         return mark_safe(html)
