@@ -63,7 +63,7 @@ function initEditorJsField(field_id, config) {
   }
 
   if ("inlineToolbar" in config) {
-    editorConfig.hideToolbar = config.inlineToolbar
+    editorConfig.inlineToolbar = config.inlineToolbar
   }
 
   if ("minHeight" in config) {
