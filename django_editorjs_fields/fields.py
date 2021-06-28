@@ -34,6 +34,8 @@ class EditorJsFieldMixin:
             self.config['hideToolbar'] = kwargs.pop('hideToolbar')
         if 'inlineToolbar' in kwargs:
             self.config['inlineToolbar'] = kwargs.pop('inlineToolbar')
+        if 'readOnly' in kwargs:
+            self.config['readOnly'] = kwargs.pop('readOnly')
         if 'minHeight' in kwargs:
             self.config['minHeight'] = kwargs.pop('minHeight')
         if 'logLevel' in kwargs:
@@ -51,15 +53,13 @@ class EditorJsFieldMixin:
 
     def formfield(self, **kwargs):
         if self.use_editorjs:
-            widget = EditorJsWidget(self.plugins, self.tools, self.config, **kwargs)
+            kwargs['widget'] = EditorJsWidget(
+                self.plugins, self.tools, self.config, **kwargs)
         else:
-            widget = Textarea(**kwargs)
-
-        defaults = {'widget': widget}
-        defaults.update(kwargs)
+            kwargs['widget'] = Textarea(**kwargs)
 
         # pylint: disable=no-member
-        return super().formfield(**defaults)
+        return super().formfield(**kwargs)
 
 
 class EditorJsTextField(EditorJsFieldMixin, FieldMixin):

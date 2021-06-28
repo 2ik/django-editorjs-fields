@@ -1,9 +1,7 @@
 function initEditorJsField(field_id, config) {
-  console.log(config)
-  const pluginName = "django_editorjs_fields"
-  const pluginHelp =
+  var pluginName = "django_editorjs_fields - " + field_id
+  var pluginHelp =
     "Write about the issue here: https://github.com/2ik/django-editorjs-fields/issues"
-
   var textarea = document.getElementById(field_id)
   var holder = textarea.nextElementSibling
   var text = textarea.value.trim()
@@ -22,25 +20,27 @@ function initEditorJsField(field_id, config) {
       return false
     }
   }
-  // remove old textarea
-  textarea.style.display = "none"
 
-  // config
+  textarea.style.display = "none" // remove old textarea
+
   var editorConfig = {
+    id: field_id,
     holder: holder,
     data: text,
   }
 
-  // set config
   if ("tools" in config) {
+    // set config
     var tools = config.tools
 
-    for (const plugin in tools) {
+    for (var plugin in tools) {
       var cls = tools[plugin].class
+
       if (cls && window[cls] != undefined) {
         tools[plugin].class = eval(cls)
         continue
       }
+
       delete tools[plugin]
       console.error(
         pluginName +
@@ -52,6 +52,7 @@ function initEditorJsField(field_id, config) {
           pluginHelp
       )
     }
+
     editorConfig.tools = tools
   }
 
@@ -64,7 +65,11 @@ function initEditorJsField(field_id, config) {
   }
 
   if ("inlineToolbar" in config) {
-    editorConfig.hideToolbar = config.inlineToolbar
+    editorConfig.inlineToolbar = config.inlineToolbar
+  }
+
+  if ("readOnly" in config) {
+    editorConfig.readOnly = config.readOnly
   }
 
   if ("minHeight" in config) {
@@ -73,6 +78,8 @@ function initEditorJsField(field_id, config) {
 
   if ("logLevel" in config) {
     editorConfig.logLevel = config.logLevel || "VERBOSE"
+  } else {
+    editorConfig.logLevel = "ERROR"
   }
 
   if ("placeholder" in config) {
@@ -105,6 +112,5 @@ function initEditorJsField(field_id, config) {
         console.log("save error: ", error)
       })
   }
-  console.log(editorConfig)
-  const editor = new EditorJS(editorConfig)
+  var editor = new EditorJS(editorConfig)
 }

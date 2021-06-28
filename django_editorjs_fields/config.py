@@ -5,7 +5,7 @@ from django.conf import settings
 
 DEBUG = getattr(settings, "DEBUG", False)
 
-VERSION = getattr(settings, "EDITORJS_VERSION", '2.19.1')
+VERSION = getattr(settings, "EDITORJS_VERSION", '2.22.1')
 
 IMAGE_UPLOAD_PATH = str(
     getattr(settings, 'EDITORJS_IMAGE_UPLOAD_PATH', 'uploads/images/')
@@ -70,3 +70,20 @@ CONFIG_TOOLS = getattr(
         'Table': {'class': 'Table', 'inlineToolbar': True},
     }
 )
+
+PLUGINS_KEYS = {
+    '@editorjs/image': 'Image',
+    '@editorjs/header': 'Header',
+    '@editorjs/checklist': 'Checklist',
+    '@editorjs/list': 'List',
+    '@editorjs/quote': 'Quote',
+    '@editorjs/raw': 'Raw',
+    '@editorjs/code': 'Code',
+    '@editorjs/inline-code': 'InlineCode',
+    '@editorjs/embed': 'Embed',
+    '@editorjs/delimiter': 'Delimiter',
+    '@editorjs/warning': 'Warning',
+    '@editorjs/link': 'LinkTool',
+    '@editorjs/marker': 'Marker',
+    '@editorjs/table': 'Table',
+}
