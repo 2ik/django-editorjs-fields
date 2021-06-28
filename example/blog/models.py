@@ -1,10 +1,11 @@
 from django.db import models
+from django.urls import reverse
 from django_editorjs_fields import EditorJsJSONField, EditorJsTextField
 
 
 class Post(models.Model):
     body_default = models.TextField()
-    body_editorjs = EditorJsJSONField(autofocus=True)
+    body_editorjs = EditorJsJSONField(readOnly=False, autofocus=True)
     body_custom = EditorJsJSONField(
         plugins=[
             "@editorjs/image",
@@ -32,6 +33,7 @@ class Post(models.Model):
                 }
             },
             "Image": {
+                'class': 'ImageTool',
                 "config": {
                     "endpoints": {
                         # Your custom backend file uploader endpoint
@@ -43,6 +45,27 @@ class Post(models.Model):
         null=True,
         blank=True,
     )
-    body_textfield = EditorJsTextField( # only images and paragraph (default)
-        plugins=["@editorjs/image"], null=True, blank=True
+    body_textfield = EditorJsTextField(  # only images and paragraph (default)
+        plugins=["@editorjs/image"], null=True, blank=True,
+        i18n={
+            'messages': {
+                'blockTunes': {
+                    "delete": {
+                        "Delete": "Удалить"
+                    },
+                    "moveUp": {
+                        "Move up": "Переместить вверх"
+                    },
+                    "moveDown": {
+                        "Move down": "Переместить вниз"
+                    }
+                }
+            },
+        }
     )
+
+    def get_absolute_url(self):
+        return reverse('post_detail', kwargs={'pk': self.id})
+
+    def __str__(self):
+        return '{}'.format(self.id)
