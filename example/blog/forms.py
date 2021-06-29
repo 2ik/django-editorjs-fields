@@ -5,19 +5,18 @@ from .models import Post
 
 
 class TestForm(forms.ModelForm):
-    body_editorjs = EditorJsWidget()
+    # body_editorjs = EditorJsWidget(config={"minHeight": 100, 'autofocus': False})
 
-    inputs = forms.JSONField(widget=EditorJsWidget())
-    inputs.widget.config = {"minHeight": 100}
+    # inputs = forms.JSONField(widget=EditorJsWidget())
+    # inputs.widget.config = {"minHeight": 100}
 
     class Meta:
         model = Post
-        fields = ['body_textfield', 'body_editorjs']
+        exclude = []
         widgets = {
-            'body_textfield': EditorJsWidget(
-                config={'minHeight': 100},
-                plugins=[
-                    "@editorjs/image",
-                    "@editorjs/header"
-                ])
+            'body_editorjs': EditorJsWidget(config={'minHeight': 100}),
+            'body_textfield': EditorJsWidget(plugins=[
+                "@editorjs/image",
+                "@editorjs/header"
+            ], config={'minHeight': 100})
         }

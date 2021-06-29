@@ -7,6 +7,10 @@
     <title>Document</title>
 </head>
 <body>
+{% load editorjs %}
+{{ post.body_editorjs | editorjs}}
+{{ post.body_custom | editorjs}}
+{{ post.body_textfield | editorjs}}
 
 </body>
 </html>
