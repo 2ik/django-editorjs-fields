@@ -1,6 +1,7 @@
 # Editor.js for Django
 
 Django plugin for using [Editor.js](https://editorjs.io/)
+
 > This plugin works fine with JSONField in Django >= 3.1
 
 [![Django Editor.js](https://i.ibb.co/r6xt4HJ/image.png)](https://github.com/2ik/django-editorjs-fields)
@@ -42,7 +43,31 @@ class Post(models.Model):
 
 ```
 
-Or add custom Editor.js plugins and configs ([List plugins](https://github.com/editor-js/awesome-editorjs))
+#### New in version 0.2.1. Django Templates support
+
+```html
+<!-- template.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    {% load editorjs %} 
+    {{ post.body_default }}
+    {{ post.body_editorjs | editorjs}}
+    {{ post.body_editorjs_text | editorjs}}
+  </body>
+</html>
+```
+
+## Additionally
+
+You can add custom Editor.js plugins and configs ([List plugins](https://github.com/editor-js/awesome-editorjs))
 
 Example custom field in models.py
 
@@ -53,7 +78,7 @@ from django_editorjs_fields import EditorJsJSONField
 
 
 class Post(models.Model):
-    body_custom = EditorJsJSONField(
+    body_editorjs_custom = EditorJsJSONField(
         plugins=[
             "@editorjs/image",
             "@editorjs/header",
@@ -75,19 +100,35 @@ class Post(models.Model):
                 }
             }
         },
+        i18n={
+            'messages': {
+                'blockTunes': {
+                    "delete": {
+                        "Delete": "Удалить"
+                    },
+                    "moveUp": {
+                        "Move up": "Переместить вверх"
+                    },
+                    "moveDown": {
+                        "Move down": "Переместить вниз"
+                    }
+                }
+            },
+        }
         null=True,
         blank=True
     )
 
 ```
 
-**django-editorjs-fields** includes this list of Editor.js plugins by default:
+**django-editorjs-fields** support this list of Editor.js plugins by default:
+<a name="plugins"></a>
 
 <details>
-    <summary>DEFAULT_PLUGINS</summary>
+    <summary>EDITORJS_DEFAULT_PLUGINS</summary>
 
 ```python
-DEFAULT_PLUGINS = [
+EDITORJS_DEFAULT_PLUGINS = (
     '@editorjs/paragraph',
     '@editorjs/image',
     '@editorjs/header',
@@ -103,47 +144,45 @@ DEFAULT_PLUGINS = [
     '@editorjs/link',
     '@editorjs/marker',
     '@editorjs/table',
-]
+)
 ```
+
 </details>
 
 <details>
-    <summary>DEFAULT_CONFIG_PLUGINS</summary>
+    <summary>EDITORJS_DEFAULT_CONFIG_TOOLS</summary>
 
 ```python
-DEFAULT_CONFIG_PLUGINS = {
-    '@editorjs/image': {
-        'Image': {
-            'class': 'ImageTool',
-            'inlineToolbar': True,
-            "config": {"endpoints": {"byFile": "/editorjs/image_upload/"}},
+EDITORJS_DEFAULT_CONFIG_TOOLS = {
+    'Image': {
+        'class': 'ImageTool',
+        'inlineToolbar': True,
+        "config": {"endpoints": {"byFile": "/editorjs/image_upload/"}},
+    },
+    'Header': {
+        'class': 'Header',
+        'inlineToolbar': True,
+        'config': {
+            'placeholder': 'Enter a header',
+            'levels': [2, 3, 4],
+            'defaultLevel': 2,
         }
     },
-    '@editorjs/header': {
-        'Header': {
-            'class': 'Header',
-            'inlineToolbar': True,
-            'config': {
-                'placeholder': 'Enter a header',
-                'levels': [2, 3, 4],
-                'defaultLevel': 2,
-            },
-        }
-    },
-    '@editorjs/checklist': {'Checklist': {'class': 'Checklist', 'inlineToolbar': True}},
-    '@editorjs/list': {'List': {'class': 'List', 'inlineToolbar': True}},
-    '@editorjs/quote': {'Quote': {'class': 'Quote', 'inlineToolbar': True}},
-    '@editorjs/raw': {'Raw': {'class': 'RawTool'}},
-    '@editorjs/code': {'Code': {'class': 'CodeTool'}},
-    '@editorjs/inline-code': {'InlineCode': {'class': 'InlineCode'}},
-    '@editorjs/embed': {'Embed': {'class': 'Embed'}},
-    '@editorjs/delimiter': {'Delimiter': {'class': 'Delimiter'}},
-    '@editorjs/warning': {'Warning': {'class': 'Warning', 'inlineToolbar': True}},
-    '@editorjs/link': {'LinkTool': {'class': 'LinkTool'}},
-    '@editorjs/marker': {'Marker': {'class': 'Marker', 'inlineToolbar': True}},
-    '@editorjs/table': {'Table': {'class': 'Table', 'inlineToolbar': True}},
+    'Checklist': {'class': 'Checklist', 'inlineToolbar': True},
+    'List': {'class': 'List', 'inlineToolbar': True},
+    'Quote': {'class': 'Quote', 'inlineToolbar': True},
+    'Raw': {'class': 'RawTool'},
+    'Code': {'class': 'CodeTool'},
+    'InlineCode': {'class': 'InlineCode'},
+    'Embed': {'class': 'Embed'},
+    'Delimiter': {'class': 'Delimiter'},
+    'Warning': {'class': 'Warning', 'inlineToolbar': True},
+    'LinkTool': {'class': 'LinkTool'},
+    'Marker': {'class': 'Marker', 'inlineToolbar': True},
+    'Table': {'class': 'Table', 'inlineToolbar': True},
 }
 ```
+
 </details>
 
 `EditorJsJSONField` accepts all the arguments of `JSONField` class.
@@ -152,14 +191,23 @@ DEFAULT_CONFIG_PLUGINS = {
 
 Additionally, it includes arguments such as:
 
-| Args            | Description                                                                                       | Default                  |
-| --------------- | ------------------------------------------------------------------------------------------------- | ------------------------ |
-| `plugins`       | List plugins Editor.js                                                                            | `DEFAULT_PLUGINS`        |
-| `tools`         | Set config `tools` for Editor.js [See docs](https://editorjs.io/configuration#passing-saved-data) | `DEFAULT_CONFIG_PLUGINS` |
-| `use_editor_js` | Enables or disables the Editor.js plugin for the field                                            | `True`                   |
+| Args            | Description                                                                                                                                  | Default                         |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
+| `plugins`       | List plugins Editor.js                                                                                                                       | `EDITORJS_DEFAULT_PLUGINS`      |
+| `tools`         | Map of Tools to use. Set config `tools` for Editor.js [See docs](https://editorjs.io/configuration#passing-saved-data)                       | `EDITORJS_DEFAULT_CONFIG_TOOLS` |
+| `use_editor_js` | Enables or disables the Editor.js plugin for the field                                                                                       | `True`                          |
+| `autofocus`     | If true, set caret at the first Block after Editor is ready                                                                                  | `False`                         |
+| `hideToolbar`   | If true, toolbar won't be shown                                                                                                              | `False`                         |
+| `inlineToolbar` | Defines default toolbar for all tools.                                                                                                       | `True`                          |
+| `readOnly`      | Enable read-only mode                                                                                                                        | `False`                         |
+| `minHeight`     | Height of Editor's bottom area that allows to set focus on the last Block                                                                    | `300`                           |
+| `logLevel`      | Editors log level (how many logs you want to see)                                                                                            | `ERROR`                         |
+| `placeholder`   | First Block placeholder                                                                                                                      | `Type text...`                  |
+| `defaultBlock`  | This Tool will be used as default. Name should be equal to one of Tool`s keys of passed tools. If not specified, Paragraph Tool will be used | `paragraph`                     |
+| `i18n`          | Internalization config                                                                                                                       | `{}`                            |
+| `sanitizer`     | Define default sanitizer configuration                                                                                                       | `{ p: true, b: true, a: true }` |
 
-
-### Image uploads
+## Image uploads
 
 If you want to upload images to the editor then add `django_editorjs_fields.urls` to `urls.py` for your project with `DEBUG=True`:
 
@@ -193,18 +241,51 @@ urlpatterns = [
 
 See an example of how you can work with the plugin [here](https://github.com/2ik/django-editorjs-fields/blob/main/example)
 
+## Forms
+
+```python
+from django import forms
+from django_editorjs_fields import EditorJsWidget
+
+
+class TestForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        exclude = []
+        widgets = {
+            'body_editorjs': EditorJsWidget(config={'minHeight': 100}),
+            'body_editorjs_text': EditorJsWidget(plugins=["@editorjs/image", "@editorjs/header"])
+        }
+```
+
+## Theme
+
+### Default Theme
+
+![image](https://user-images.githubusercontent.com/6692517/124242133-7a7dad00-db2d-11eb-812f-84a5c44e88c9.png)
+
+### Dark Theme
+
+plugin use css property [prefers-color-scheme](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme) to define a dark theme in browser
+
+![image](https://user-images.githubusercontent.com/6692517/124240864-3dfd8180-db2c-11eb-85c1-21f0faf41775.png)
+
 ## Configure
 
 The application can be configured by editing the project's `settings.py`
 file.
 
-| Key                            | Description                                                                     | Default                                                |
-| ------------------------------ | ------------------------------------------------------------------------------- | ------------------------------------------------------ |
-| `EDITORJS_IMAGE_UPLOAD_PATH`   | Path uploads images                                                             | `settings.MEDIA_URL + 'uploads/images/'`               |
-| `EDITORJS_IMAGE_NAME_ORIGINAL` | To use the original name of the image file?                                     | `False`                                                |
-| `EDITORJS_IMAGE_NAME_POSTFIX`  | Image file name postfix. Ignored when `EDITORJS_IMAGE_NAME_ORIGINAL` is `True`  | `token_urlsafe(5) # from secrets import token_urlsafe` |
-| `EDITORJS_IMAGE_NAME`          | Image file name postfix. Ignored when `EDITORJS_IMAGE_NAME_ORIGINAL` is `False` | `token_urlsafe(8) # from secrets import token_urlsafe` |
-| `EDITORJS_VERSION`             | Version Editor.js                                                               | `2.19.1`                                               |
+| Key                             | Description                                                                     | Default                                  |
+| ------------------------------- | ------------------------------------------------------------------------------- | ---------------------------------------- |
+| `EDITORJS_DEFAULT_PLUGINS`      | List of plugins names Editor.js from npm                                        | [See above](#plugins)                    |
+| `EDITORJS_DEFAULT_CONFIG_TOOLS` | Map of Tools to use                                                             | [See above](#plugins)                    |
+| `EDITORJS_IMAGE_UPLOAD_PATH`    | Path uploads images                                                             | `settings.MEDIA_URL + 'uploads/images/'` |
+| `EDITORJS_IMAGE_NAME_ORIGINAL`  | To use the original name of the image file?                                     | `False`                                  |
+| `EDITORJS_IMAGE_NAME_POSTFIX`   | Image file name postfix. Ignored when `EDITORJS_IMAGE_NAME_ORIGINAL` is `True`  | `token_urlsafe(5)`                       |
+| `EDITORJS_IMAGE_NAME`           | Image file name postfix. Ignored when `EDITORJS_IMAGE_NAME_ORIGINAL` is `False` | `token_urlsafe(8)`                       |
+| `EDITORJS_VERSION`              | Version Editor.js                                                               | `2.22.1`                                 |
+
+For `EDITORJS_IMAGE_NAME_POSTFIX` and `EDITORJS_IMAGE_NAME` was used `from secrets import token_urlsafe`
 
 ## Support and updates
 
