@@ -84,6 +84,8 @@ function initEditorJsField(field_id, config) {
 
   if ("placeholder" in config) {
     editorConfig.placeholder = config.placeholder || "Type text..."
+  } else {
+    editorConfig.placeholder = "Type text..."
   }
 
   if ("defaultBlock" in config) {
@@ -99,7 +101,7 @@ function initEditorJsField(field_id, config) {
   }
 
   if ("i18n" in config) {
-    editorConfig.i18n = config.i18n || false
+    editorConfig.i18n = config.i18n || {}
   }
 
   editorConfig.onChange = function () {
