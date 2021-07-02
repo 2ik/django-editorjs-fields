@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-editorjs-fields"
-version = "0.2.0"
+version = "0.2.1"
 description = "Django plugin for using Editor.js"
 authors = ["Ilya Kotlyakov <m@2ik.ru>"]
 license = "MIT"
@@ -17,6 +17,7 @@ classifiers = [
     "Framework :: Django :: 2.2",
     "Framework :: Django :: 3.0",
     "Framework :: Django :: 3.1",
+    "Framework :: Django :: 3.2",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3.6",
