@@ -16,9 +16,6 @@ IMAGE_UPLOAD_PATH_DATE = getattr(
 IMAGE_NAME_ORIGINAL = getattr(
     settings, "EDITORJS_IMAGE_NAME_ORIGINAL", False)
 
-IMAGE_NAME_POSTFIX = getattr(
-    settings, "EDITORJS_IMAGE_NAME_POSTFIX", False)
-
 IMAGE_NAME = getattr(
     settings, "EDITORJS_IMAGE_NAME", lambda **_: token_urlsafe(8))
 
