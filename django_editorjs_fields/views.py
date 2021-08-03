@@ -1,12 +1,13 @@
 import os
+from datetime import datetime
 
 from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
-from .config import (IMAGE_NAME, IMAGE_NAME_ORIGINAL, IMAGE_NAME_POSTFIX,
-                     IMAGE_UPLOAD_PATH)
+from .config import (IMAGE_NAME, IMAGE_NAME_ORIGINAL, IMAGE_UPLOAD_PATH,
+                     IMAGE_UPLOAD_PATH_DATE)
 from .utils import storage
 
 
@@ -34,20 +35,23 @@ class ImageUploadView(View):
                     {'success': 0, 'message': 'You can only upload images.'}
                 )
 
-            # filesize = len(file['content'])
-            # filetype = file['content-type']
+            # filesize = len(the_file['content'])
+            # filetype = the_file['content-type']
 
             filename, extension = os.path.splitext(the_file.name)
 
-            if IMAGE_NAME_ORIGINAL:
-                filename = filename + IMAGE_NAME_POSTFIX
-            else:
-                filename = IMAGE_NAME
+            if IMAGE_NAME_ORIGINAL is False:
+                filename = IMAGE_NAME(filename=filename, file=the_file)
 
             filename += extension
 
+            upload_path = IMAGE_UPLOAD_PATH
+
+            if IMAGE_UPLOAD_PATH_DATE:
+                upload_path += datetime.now().strftime(IMAGE_UPLOAD_PATH_DATE)
+
             path = storage.save(
-                os.path.join(IMAGE_UPLOAD_PATH, filename), the_file
+                os.path.join(upload_path, filename), the_file
             )
             link = storage.url(path)
 

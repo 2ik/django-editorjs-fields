@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-editorjs-fields"
-version = "0.2.1"
+version = "0.2.2"
 description = "Django plugin for using Editor.js"
 authors = ["Ilya Kotlyakov <m@2ik.ru>"]
 license = "MIT"

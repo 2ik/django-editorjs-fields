@@ -1,24 +1,23 @@
-from datetime import datetime
 from secrets import token_urlsafe
 
 from django.conf import settings
 
 DEBUG = getattr(settings, "DEBUG", False)
 
-VERSION = getattr(settings, "EDITORJS_VERSION", '2.22.1')
+VERSION = getattr(settings, "EDITORJS_VERSION", '2.22.2')
 
 IMAGE_UPLOAD_PATH = str(
-    getattr(settings, 'EDITORJS_IMAGE_UPLOAD_PATH', 'uploads/images/')
-) + datetime.now().strftime("%Y/%m/")
+    getattr(settings, "EDITORJS_IMAGE_UPLOAD_PATH", 'uploads/images/')
+)
+
+IMAGE_UPLOAD_PATH_DATE = getattr(
+    settings, "EDITORJS_IMAGE_UPLOAD_PATH_DATE", '%Y/%m/')
 
 IMAGE_NAME_ORIGINAL = getattr(
     settings, "EDITORJS_IMAGE_NAME_ORIGINAL", False)
 
-IMAGE_NAME_POSTFIX = getattr(
-    settings, "EDITORJS_IMAGE_NAME_POSTFIX", token_urlsafe(5))
-
 IMAGE_NAME = getattr(
-    settings, "EDITORJS_IMAGE_NAME", token_urlsafe(8))
+    settings, "EDITORJS_IMAGE_NAME", lambda **_: token_urlsafe(8))
 
 PLUGINS = getattr(
     settings, "EDITORJS_DEFAULT_PLUGINS", (
