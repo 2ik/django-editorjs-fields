@@ -139,3 +139,6 @@ MEDIA_URL = "/media/"
 
 # django_editorjs_fields
 EDITORJS_VERSION = '2.22.1'
+# EDITORJS_IMAGE_NAME_ORIGINAL = True
+# EDITORJS_IMAGE_UPLOAD_PATH_DATE = None
+# EDITORJS_IMAGE_NAME = lambda filename, **_: f"{filename}_12345"
