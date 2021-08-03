@@ -57,8 +57,10 @@ class Post(models.Model):
     <title>Document</title>
   </head>
   <body>
-    {% load editorjs %} {{ post.body_default }} {{ post.body_editorjs |
-    editorjs}} {{ post.body_editorjs_text | editorjs}}
+    {% load editorjs %} 
+    {{ post.body_default }}
+    {{ post.body_editorjs | editorjs}}
+    {{ post.body_editorjs_text | editorjs}}
   </body>
 </html>
 ```
