@@ -13,7 +13,8 @@ class EditorJsWidget(widgets.Textarea):
         self.tools = tools
         self.config = config
 
-        widget = kwargs.pop('widget', None) # Fix "__init__() got an unexpected keyword argument 'widget'"
+        # Fix "__init__() got an unexpected keyword argument 'widget'"
+        widget = kwargs.pop('widget', None)
         if widget:
             self.plugins = widget.plugins
             self.tools = widget.tools
@@ -71,14 +72,14 @@ class EditorJsWidget(widgets.Textarea):
         html = super().render(name, value, attrs)
 
         html += '''
-        <div data-editorjs-holder></div>
+        <div data-editorjs-holder id="%(id)s_editorjs_holder" class="editorjs-holder"></div>
         <script defer>
         addEventListener('DOMContentLoaded', function () {
-            initEditorJsField('%s', %s);
+            initEditorJsField('%(id)s', %(config)s);
         })
-        </script>''' % (
-            attrs.get('id'),
-            json.dumps(self.configuration()),
-        )
+        </script>''' % {
+            'id': attrs.get('id'),
+            'config': json.dumps(self.configuration()),
+        }
 
         return mark_safe(html)
