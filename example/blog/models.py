@@ -69,3 +69,9 @@ class Post(models.Model):
 
     def __str__(self):
         return '{}'.format(self.id)
+
+
+class Comment(models.Model):
+    content = EditorJsJSONField(null=True, blank=True)
+    post = models.ForeignKey(
+        'Post', related_name='comments', on_delete=models.CASCADE)
