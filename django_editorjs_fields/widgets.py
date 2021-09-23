@@ -1,10 +1,25 @@
 import json
 
+from django.core.serializers.json import DjangoJSONEncoder
 from django.forms import Media, widgets
-from django.utils.functional import cached_property
+from django.forms.renderers import get_default_renderer
+from django.forms.utils import flatatt
+from django.utils.encoding import force_str
+from django.utils.functional import Promise, cached_property
+from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
 
 from .config import CONFIG_TOOLS, PLUGINS, PLUGINS_KEYS, VERSION
+
+
+class LazyEncoder(DjangoJSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Promise):
+            return force_str(obj)
+        return super().default(obj)
+
+
+json_encode = LazyEncoder().encode
 
 
 class EditorJsWidget(widgets.Textarea):
@@ -69,17 +84,17 @@ class EditorJsWidget(widgets.Textarea):
         )
 
     def render(self, name, value, attrs=None, renderer=None):
-        html = super().render(name, value, attrs)
+        if value is None:
+            value = ''
 
-        html += '''
-        <div data-editorjs-holder id="%(id)s_editorjs_holder" class="editorjs-holder"></div>
-        <script defer>
-        addEventListener('DOMContentLoaded', function () {
-            initEditorJsField('%(id)s', %(config)s);
-        })
-        </script>''' % {
-            'id': attrs.get('id'),
-            'config': json.dumps(self.configuration()),
-        }
+        if renderer is None:
+            renderer = get_default_renderer()
 
-        return mark_safe(html)
+        return mark_safe(renderer.render("django-editorjs-fields/widget.html", {
+            'widget': {
+                'name': name,
+                'value': conditional_escape(force_str(value)),
+                'attrs': self.build_attrs(self.attrs, attrs),
+                'config': json_encode(self.configuration()),
+            }
+        }))

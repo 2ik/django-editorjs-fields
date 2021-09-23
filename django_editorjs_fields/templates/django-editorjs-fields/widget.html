@@ -1,0 +1,2 @@
+<textarea data-editorjs-textarea name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %} data-config='{{ widget.config }}'>{% if widget.value %}{{ widget.value }}{% endif %}</textarea>
+<div data-editorjs-holder id="{{ widget.attrs.id }}_editorjs_holder" class="editorjs-holder"></div>
