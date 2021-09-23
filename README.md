@@ -26,6 +26,14 @@ INSTALLED_APPS = [
 ]
 ```
 
+## Upgrade
+
+```bash
+pip install django-editorjs-fields --upgrade
+python manage.py collectstatic  # upgrade js and css files
+```
+
+
 ## Usage
 
 Add code in your model
@@ -282,8 +290,8 @@ file.
 | `EDITORJS_IMAGE_UPLOAD_PATH`      | Path uploads images                                                    | `uploads/images/`     | `str`                                                                                                                                                   |
 | `EDITORJS_IMAGE_UPLOAD_PATH_DATE` | Subdirectories                                                         | `%Y/%m/`              | `str`                                                                                                                                                   |
 | `EDITORJS_IMAGE_NAME_ORIGINAL`    | To use the original name of the image file?                            | `False`               | `bool`                                                                                                                                                  |
-| `EDITORJS_IMAGE_NAME`             | Image file name. Ignored when `EDITORJS_IMAGE_NAME_ORIGINAL` is `True` | `token_urlsafe(8)`    | `callable(filename: str, file: django.core.files.uploadedfile.InMemoryUploadedFile)` ([docs](https://docs.djangoproject.com/en/3.0/ref/files/uploads/)) |
-| `EDITORJS_VERSION`                | Version Editor.js                                                      | `2.22.2`              | `str`                                                                                                                                                   |
+| `EDITORJS_IMAGE_NAME`             | Image file name. Ignored when `EDITORJS_IMAGE_NAME_ORIGINAL` is `True` | `token_urlsafe(8)`    | `callable(filename: str, file: InMemoryUploadedFile)` ([docs](https://docs.djangoproject.com/en/3.0/ref/files/uploads/)) |
+| `EDITORJS_VERSION`                | Version Editor.js                                                      | `2.22.3`              | `str`                                                                                                                                                   |
 
 For `EDITORJS_IMAGE_NAME` was used `from secrets import token_urlsafe`
 
