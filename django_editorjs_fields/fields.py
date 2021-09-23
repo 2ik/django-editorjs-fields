@@ -67,6 +67,12 @@ class EditorJsTextField(EditorJsFieldMixin, FieldMixin):
     def __init__(self, plugins=None, tools=None, **kwargs):
         super().__init__(plugins, tools, **kwargs)
 
+    def clean(self, value, model_instance):
+        if value == 'null':
+            value = None
+
+        return super().clean(value, model_instance)
+
 
 class EditorJsJSONField(EditorJsFieldMixin, JSONField if HAS_JSONFIELD else FieldMixin):
     # pylint: disable=useless-super-delegation
