@@ -83,7 +83,7 @@ def generate_quote(data):
 
 def generate_code(data):
     code = data.get('code')
-    return f'<code class="code">{code}</div>'
+    return f'<code class="code">{code}</code>'
 
 
 def generate_raw(data):
@@ -101,6 +101,9 @@ def generate_embed(data):
 
 @register.filter(is_safe=True)
 def editorjs(value):
+    if not value or value == 'null':
+        return ""
+
     if not isinstance(value, dict):
         try:
             value = json.loads(value)
