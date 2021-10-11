@@ -1,6 +1,7 @@
 from secrets import token_urlsafe
 
 from django.conf import settings
+from django.urls import reverse_lazy
 
 DEBUG = getattr(settings, "DEBUG", False)
 
@@ -44,7 +45,7 @@ CONFIG_TOOLS = getattr(
         'Image': {
             'class': 'ImageTool',
             'inlineToolbar': True,
-            "config": {"endpoints": {"byFile": "/editorjs/image_upload/"}},
+            "config": {"endpoints": {"byFile": reverse_lazy('editorjs_image_upload')}},
         },
         'Header': {
             'class': 'Header',
