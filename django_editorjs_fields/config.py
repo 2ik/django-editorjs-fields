@@ -65,7 +65,13 @@ CONFIG_TOOLS = getattr(
         'Embed': {'class': 'Embed'},
         'Delimiter': {'class': 'Delimiter'},
         'Warning': {'class': 'Warning', 'inlineToolbar': True},
-        'LinkTool': {'class': 'LinkTool'},
+        'LinkTool': {
+            'class': 'LinkTool',
+            'config': {
+                # Backend endpoint for url data fetching
+                'endpoint': reverse_lazy('editorjs_linktool'),
+            }
+        },
         'Marker': {'class': 'Marker', 'inlineToolbar': True},
         'Table': {'class': 'Table', 'inlineToolbar': True},
     }

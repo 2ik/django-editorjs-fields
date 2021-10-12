@@ -99,6 +99,34 @@ def generate_embed(data):
     return f'<div class="embed {service}">{iframe}{caption}</div>'
 
 
+def generate_link(data):
+
+    link, meta = data.get('link'), data.get('meta')
+
+    if not link or not meta:
+        return ''
+
+    title = meta.get('title')
+    description = meta.get('description')
+    image = meta.get('image')
+
+    wrapper = f'<div class="link-block"><a href="{ link }" target="_blank" rel="nofollow noopener noreferrer">'
+
+    if image.get('url'):
+        image_url = image.get('url')
+        wrapper += f'<div class="link-block__image" style="background-image: url(\'{image_url}\');"></div>'
+
+    if title:
+        wrapper += f'<p class="link-block__title">{title}</p>'
+
+    if description:
+        wrapper += f'<p class="link-block__description">{description}</p>'
+
+    wrapper += f'<p class="link-block__link">{link}</p>'
+    wrapper += '</a></div>'
+    return wrapper
+
+
 @register.filter(is_safe=True)
 def editorjs(value):
     if not value or value == 'null':
@@ -139,5 +167,7 @@ def editorjs(value):
             html_list.append(generate_embed(data))
         elif type == 'Quote':
             html_list.append(generate_quote(data))
+        elif type == 'LinkTool':
+            html_list.append(generate_link(data))
 
     return mark_safe(''.join(html_list))
