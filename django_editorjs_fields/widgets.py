@@ -3,7 +3,6 @@ import json
 from django.core.serializers.json import DjangoJSONEncoder
 from django.forms import Media, widgets
 from django.forms.renderers import get_default_renderer
-from django.forms.utils import flatatt
 from django.utils.encoding import force_str
 from django.utils.functional import Promise, cached_property
 from django.utils.html import conditional_escape

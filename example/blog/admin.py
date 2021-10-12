@@ -4,7 +4,7 @@ from blog.models import Post, Comment
 
 class CommentInline(admin.TabularInline):
     model = Comment
-    extra = 2
+    extra = 0
 
     fields = ('content',)
 
