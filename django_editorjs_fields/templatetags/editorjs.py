@@ -7,26 +7,29 @@ register = template.Library()
 
 
 def generate_paragraph(data):
+    classes = ['editorjs_p']
     text = data.get('text').replace('&nbsp;', ' ')
-    return f'<p>{text}</p>'
+    return f'<p class="{classes}">{text}</p>'
 
 
 def generate_list(data):
     list_li = ''.join([f'<li>{item}</li>' for item in data.get('items')])
     tag = 'ol' if data.get('style') == 'ordered' else 'ul'
-    return f'<{tag}>{list_li}</{tag}>'
+    classes = [f'editorjs_{tag}']
+    return f'<{tag} class="{classes}">{list_li}</{tag}>'
 
 
 def generate_header(data):
     text = data.get('text').replace('&nbsp;', ' ')
     level = data.get('level')
-    return f'<h{level}>{text}</h{level}>'
+    classes = [f'editorjs_h{level}']
+    return f'<h{level} class="{classes}">{text}</h{level}>'
 
 
 def generate_image(data):
     url = data.get('file', {}).get('url')
     caption = data.get('caption')
-    classes = []
+    classes = ['editorjs_img']
 
     if data.get('stretched'):
         classes.append('stretched')
@@ -41,7 +44,7 @@ def generate_image(data):
 
 
 def generate_delimiter():
-    return '<div class="delimiter"></div>'
+    return '<div class="delimiter editorjs_delimiter"></div>'
 
 
 def generate_table(data):
@@ -54,7 +57,8 @@ def generate_table(data):
             table += f'<td>{cell}</td>'
         table += '</tr>'
 
-    return f'<table>{table}</table>'
+    classes = ['editorjs_table']
+    return f'<table class="{classes}">{table}</table>'
 
 
 def generate_warning(data):
