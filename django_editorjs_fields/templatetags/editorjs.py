@@ -144,30 +144,31 @@ def editorjs(value):
     for item in value['blocks']:
 
         type, data = item.get('type'), item.get('data')
+        type = type.lower()
 
         if type == 'paragraph':
             html_list.append(generate_paragraph(data))
-        elif type == 'Header':
+        elif type == 'header':
             html_list.append(generate_header(data))
-        elif type == 'List':
+        elif type == 'list':
             html_list.append(generate_list(data))
-        elif type == 'Image':
+        elif type == 'image':
             html_list.append(generate_image(data))
-        elif type == 'Delimiter':
+        elif type == 'delimiter':
             html_list.append(generate_delimiter())
-        elif type == 'Warning':
+        elif type == 'warning':
             html_list.append(generate_warning(data))
-        elif type == 'Table':
+        elif type == 'table':
             html_list.append(generate_table(data))
-        elif type == 'Code':
+        elif type == 'code':
             html_list.append(generate_code(data))
-        elif type == 'Raw':
+        elif type == 'raw':
             html_list.append(generate_raw(data))
-        elif type == 'Embed':
+        elif type == 'embed':
             html_list.append(generate_embed(data))
-        elif type == 'Quote':
+        elif type == 'quote':
             html_list.append(generate_quote(data))
-        elif type == 'LinkTool':
+        elif type == 'linktool':
             html_list.append(generate_link(data))
 
     return mark_safe(''.join(html_list))
