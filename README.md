@@ -40,7 +40,7 @@ Add code in your model
 ```python
 # models.py
 from django.db import models
-from django_editorjs_fields import EditorJsJSONFiel  # Django >= 3.1
+from django_editorjs_fields import EditorJsJSONField  # Django >= 3.1
 from django_editorjs_fields import EditorJsTextField
 
 
