@@ -77,6 +77,9 @@ CONFIG_TOOLS = getattr(
     }
 )
 
+IFRAME_ALLOWED_SITES_EXEC_JS = getattr(
+    settings, "EDITORJS_IFRAME_ALLOWED_SITES_EXEC_JS", "ALL")  # can be "ALL" or a list of websites
+
 PLUGINS_KEYS = {
     '@editorjs/image': 'Image',
     '@editorjs/header': 'Header',

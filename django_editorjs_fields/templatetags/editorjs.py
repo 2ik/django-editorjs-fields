@@ -2,6 +2,8 @@ import json
 
 from django import template
 from django.utils.safestring import mark_safe
+from django_editorjs_fields.config import IFRAME_ALLOWED_SITES_EXEC_JS
+from urllib.parse import urlparse
 
 register = template.Library()
 
@@ -94,9 +96,23 @@ def generate_embed(data):
     service = data.get('service')
     caption = data.get('caption')
     embed = data.get('embed')
-    iframe = f'<iframe src="{embed}" allow="autoplay" allowfullscreen="allowfullscreen"></iframe>'
+    website = urlparse(embed).netloc
 
-    return f'<div class="embed {service}">{iframe}{caption}</div>'
+    if (IFRAME_ALLOWED_SITES_EXEC_JS == "ALL"):
+        iframe = f'<iframe src="{embed}" allow="autoplay" allowfullscreen="allowfullscreen"></iframe>'
+
+        return f'<div class="embed {service}">{iframe}{caption}</div>'
+    else:
+        if (website in IFRAME_ALLOWED_SITES_EXEC_JS):
+            iframe = f'<iframe src="{embed}" allow="autoplay" allowfullscreen="allowfullscreen"></iframe>'
+
+            return f'<div class="embed {service}">{iframe}{caption}</div>'
+
+        else:
+            # adding sandbox attribute to disable js execution
+            iframe = f'<iframe src="{embed}" allow="autoplay" allowfullscreen="allowfullscreen" sandbox></iframe>'
+
+            return f'<div class="embed {service}">{iframe}{caption}</div>'
 
 
 def generate_link(data):
