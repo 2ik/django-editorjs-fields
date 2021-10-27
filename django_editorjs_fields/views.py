@@ -144,3 +144,17 @@ class LinkToolView(View):
                         })
 
         return JsonResponse({'success': 0})
+
+
+class ImageByUrl(View):
+    http_method_names = ["post"]
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request):
+        body = json.loads(request.body.decode())
+        if 'url' in body:
+            return JsonResponse({'success': 1, 'file': {"url": body['url']}})
+        return JsonResponse({'success': 0})

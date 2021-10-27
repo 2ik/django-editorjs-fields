@@ -1,7 +1,7 @@
 from django.contrib.admin.views.decorators import staff_member_required
 from django.urls import path
 
-from .views import ImageUploadView, LinkToolView
+from .views import ImageUploadView, LinkToolView, ImageByUrl
 
 urlpatterns = [
     path(
@@ -13,5 +13,10 @@ urlpatterns = [
         'linktool/',
         staff_member_required(LinkToolView.as_view()),
         name='editorjs_linktool',
+    ),
+    path(
+        'image_by_url/',
+        ImageByUrl.as_view(),
+        name='editorjs_image_by_url',
     ),
 ]
