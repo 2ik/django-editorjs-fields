@@ -165,10 +165,12 @@ EDITORJS_DEFAULT_CONFIG_TOOLS = {
     'Image': {
         'class': 'ImageTool',
         'inlineToolbar': True,
-        "config": {"endpoints": {
+        "config": {
+            "endpoints": {
                 "byFile": reverse_lazy('editorjs_image_upload'),
                 "byUrl": reverse_lazy('editorjs_image_by_url')
-            }},
+            }
+        },
     },
     'Header': {
         'class': 'Header',

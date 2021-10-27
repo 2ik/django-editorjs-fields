@@ -45,10 +45,12 @@ CONFIG_TOOLS = getattr(
         'Image': {
             'class': 'ImageTool',
             'inlineToolbar': True,
-            "config": {"endpoints": {
-                "byFile": reverse_lazy('editorjs_image_upload'),
-                "byUrl": reverse_lazy('editorjs_image_by_url')
-            }},
+            "config": {
+                "endpoints": {
+                    "byFile": reverse_lazy('editorjs_image_upload'),
+                    "byUrl": reverse_lazy('editorjs_image_by_url')
+                }
+            },
         },
         'Header': {
             'class': 'Header',
