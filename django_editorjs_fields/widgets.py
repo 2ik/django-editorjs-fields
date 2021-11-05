@@ -23,7 +23,7 @@ json_encode = LazyEncoder().encode
 
 class EditorJsWidget(widgets.Textarea):
     def __init__(self, plugins=None, tools=None, config=None, **kwargs):
-        self.plugins = PLUGINS if plugins is None else plugins
+        self.plugins = plugins
         self.tools = tools
         self.config = config
 
@@ -39,28 +39,37 @@ class EditorJsWidget(widgets.Textarea):
     def configuration(self):
         tools = {}
         config = self.config or {}
-        custom_tools = self.tools or {}
-        # get name packages without version
-        plugins = ['@'.join(p.split('@')[:2]) for p in self.plugins]
 
-        for plugin in plugins:
-            plugin_key = PLUGINS_KEYS.get(plugin)
-            plugin_tools = custom_tools.get(
-                plugin_key) or CONFIG_TOOLS.get(plugin_key) or {}
-            plugin_class = plugin_tools.get('class')
+        if self.plugins or self.tools:
+            custom_tools = self.tools or {}
+            # get name packages without version
+            plugins = ['@'.join(p.split('@')[:2])
+                       for p in self.plugins or PLUGINS]
 
-            if plugin_class:
+            for plugin in plugins:
+                plugin_key = PLUGINS_KEYS.get(plugin)
 
-                tools[plugin_key] = custom_tools.get(
-                    plugin_key, CONFIG_TOOLS.get(plugin_key)
-                )
+                if not plugin_key:
+                    continue
 
-                tools[plugin_key]['class'] = plugin_class
+                plugin_tools = custom_tools.get(
+                    plugin_key) or CONFIG_TOOLS.get(plugin_key) or {}
+                plugin_class = plugin_tools.get('class')
 
-                custom_tools.pop(plugin_key, None)
+                if plugin_class:
 
-        if custom_tools:
-            tools.update(custom_tools)
+                    tools[plugin_key] = custom_tools.get(
+                        plugin_key, CONFIG_TOOLS.get(plugin_key)
+                    )
+
+                    tools[plugin_key]['class'] = plugin_class
+
+                    custom_tools.pop(plugin_key, None)
+
+            if custom_tools:
+                tools.update(custom_tools)
+        else:  # default
+            tools.update(CONFIG_TOOLS)
 
         config.update(tools=tools)
         return config
@@ -70,7 +79,12 @@ class EditorJsWidget(widgets.Textarea):
         js_list = [
             '//cdn.jsdelivr.net/npm/@editorjs/editorjs@' + VERSION  # lib
         ]
-        js_list += ['//cdn.jsdelivr.net/npm/' + p for p in self.plugins or []]
+
+        plugins = self.plugins or PLUGINS
+
+        if plugins:
+            js_list += ['//cdn.jsdelivr.net/npm/' + p for p in plugins]
+
         js_list.append('django-editorjs-fields/js/django-editorjs-fields.js')
 
         return Media(
