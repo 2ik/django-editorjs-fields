@@ -1,8 +1,12 @@
+import json
+
 from django.core import checks
+from django.core.exceptions import ValidationError
 from django.db.models import Field
 from django.forms import Textarea
 
-from .config import DEBUG
+from .config import DEBUG, EMBED_HOSTNAME_ALLOWED
+from .utils import get_hostname_from_url
 from .widgets import EditorJsWidget
 
 try:
@@ -50,6 +54,34 @@ class EditorJsFieldMixin:
             self.config['i18n'] = kwargs.pop('i18n')
 
         super().__init__(**kwargs)
+
+    def validate_embed(self, value):
+        for item in value.get('blocks', []):
+            type = item.get('type', '').lower()
+            if type == 'embed':
+                embed = item['data']['embed']
+                hostname = get_hostname_from_url(embed)
+
+                if hostname not in EMBED_HOSTNAME_ALLOWED:
+                    raise ValidationError(
+                        hostname + ' is not allowed in EDITORJS_EMBED_HOSTNAME_ALLOWED')
+
+    def clean(self, value, model_instance):
+        if value and value != 'null':
+            if not isinstance(value, dict):
+                try:
+                    value = json.loads(value)
+                except ValueError:
+                    pass
+                except TypeError:
+                    pass
+                else:
+                    self.validate_embed(value)
+                    value = json.dumps(value)
+            else:
+                self.validate_embed(value)
+
+        return super().clean(value, model_instance)
 
     def formfield(self, **kwargs):
         if self.use_editorjs:

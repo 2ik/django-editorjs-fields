@@ -165,10 +165,12 @@ EDITORJS_DEFAULT_CONFIG_TOOLS = {
     'Image': {
         'class': 'ImageTool',
         'inlineToolbar': True,
-        "config": {"endpoints": {
+        "config": {
+            "endpoints": {
                 "byFile": reverse_lazy('editorjs_image_upload'),
                 "byUrl": reverse_lazy('editorjs_image_by_url')
-            }},
+            }
+        },
     },
     'Header': {
         'class': 'Header',
@@ -291,15 +293,16 @@ plugin use css property [prefers-color-scheme](https://developer.mozilla.org/en-
 The application can be configured by editing the project's `settings.py`
 file.
 
-| Key                               | Description                                                            | Default               | Type                                                                                                                     |
-| --------------------------------- | ---------------------------------------------------------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `EDITORJS_DEFAULT_PLUGINS`        | List of plugins names Editor.js from npm                               | [See above](#plugins) | `list[str]`, `tuple[str]`                                                                                                |
-| `EDITORJS_DEFAULT_CONFIG_TOOLS`   | Map of Tools to use                                                    | [See above](#plugins) | `dict[str, dict]`                                                                                                        |
-| `EDITORJS_IMAGE_UPLOAD_PATH`      | Path uploads images                                                    | `uploads/images/`     | `str`                                                                                                                    |
-| `EDITORJS_IMAGE_UPLOAD_PATH_DATE` | Subdirectories                                                         | `%Y/%m/`              | `str`                                                                                                                    |
-| `EDITORJS_IMAGE_NAME_ORIGINAL`    | To use the original name of the image file?                            | `False`               | `bool`                                                                                                                   |
-| `EDITORJS_IMAGE_NAME`             | Image file name. Ignored when `EDITORJS_IMAGE_NAME_ORIGINAL` is `True` | `token_urlsafe(8)`    | `callable(filename: str, file: InMemoryUploadedFile)` ([docs](https://docs.djangoproject.com/en/3.0/ref/files/uploads/)) |
-| `EDITORJS_VERSION`                | Version Editor.js                                                      | `2.22.3`              | `str`                                                                                                                    |
+| Key                               | Description                                                            | Default                                                                                                                                                                                                                                                     | Type                                                                                                                     |
+| --------------------------------- | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `EDITORJS_DEFAULT_PLUGINS`        | List of plugins names Editor.js from npm                               | [See above](#plugins)                                                                                                                                                                                                                                       | `list[str]`, `tuple[str]`                                                                                                |
+| `EDITORJS_DEFAULT_CONFIG_TOOLS`   | Map of Tools to use                                                    | [See above](#plugins)                                                                                                                                                                                                                                       | `dict[str, dict]`                                                                                                        |
+| `EDITORJS_IMAGE_UPLOAD_PATH`      | Path uploads images                                                    | `uploads/images/`                                                                                                                                                                                                                                           | `str`                                                                                                                    |
+| `EDITORJS_IMAGE_UPLOAD_PATH_DATE` | Subdirectories                                                         | `%Y/%m/`                                                                                                                                                                                                                                                    | `str`                                                                                                                    |
+| `EDITORJS_IMAGE_NAME_ORIGINAL`    | To use the original name of the image file?                            | `False`                                                                                                                                                                                                                                                     | `bool`                                                                                                                   |
+| `EDITORJS_IMAGE_NAME`             | Image file name. Ignored when `EDITORJS_IMAGE_NAME_ORIGINAL` is `True` | `token_urlsafe(8)`                                                                                                                                                                                                                                          | `callable(filename: str, file: InMemoryUploadedFile)` ([docs](https://docs.djangoproject.com/en/3.0/ref/files/uploads/)) |
+| `EDITORJS_EMBED_HOSTNAME_ALLOWED` | List of allowed hostname for embed                                     | `('player.vimeo.com','www.youtube.com','coub.com','vine.co','imgur.com','gfycat.com','player.twitch.tv','player.twitch.tv','music.yandex.ru','codepen.io','www.instagram.com','twitframe.com','assets.pinterest.com','www.facebook.com','www.aparat.com'),` | `list[str]`, `tuple[str]`                                                                                                |
+| `EDITORJS_VERSION`                | Version Editor.js                                                      | `2.22.3`                                                                                                                                                                                                                                                    | `str`                                                                                                                    |
 
 For `EDITORJS_IMAGE_NAME` was used `from secrets import token_urlsafe`
 

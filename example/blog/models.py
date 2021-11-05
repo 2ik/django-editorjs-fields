@@ -46,7 +46,7 @@ class Post(models.Model):
         blank=True,
     )
     body_textfield = EditorJsTextField(  # only images and paragraph (default)
-        plugins=["@editorjs/image"], null=True, blank=True,
+        plugins=["@editorjs/image", "@editorjs/embed"], null=True, blank=True,
         i18n={
             'messages': {
                 'blockTunes': {

@@ -7,6 +7,30 @@ DEBUG = getattr(settings, "DEBUG", False)
 
 VERSION = getattr(settings, "EDITORJS_VERSION", '2.22.2')
 
+# ATTACHMENT_REQUIRE_AUTHENTICATION = str(
+#     getattr(settings, "EDITORJS_ATTACHMENT_REQUIRE_AUTHENTICATION", True)
+# )
+
+EMBED_HOSTNAME_ALLOWED = str(
+    getattr(settings, "EDITORJS_EMBED_HOSTNAME_ALLOWED", (
+        'player.vimeo.com',
+        'www.youtube.com',
+        'coub.com',
+        'vine.co',
+        'imgur.com',
+        'gfycat.com',
+        'player.twitch.tv',
+        'player.twitch.tv',
+        'music.yandex.ru',
+        'codepen.io',
+        'www.instagram.com',
+        'twitframe.com',
+        'assets.pinterest.com',
+        'www.facebook.com',
+        'www.aparat.com',
+    ))
+)
+
 IMAGE_UPLOAD_PATH = str(
     getattr(settings, "EDITORJS_IMAGE_UPLOAD_PATH", 'uploads/images/')
 )
@@ -45,10 +69,12 @@ CONFIG_TOOLS = getattr(
         'Image': {
             'class': 'ImageTool',
             'inlineToolbar': True,
-            "config": {"endpoints": {
-                "byFile": reverse_lazy('editorjs_image_upload'),
-                "byUrl": reverse_lazy('editorjs_image_by_url')
-            }},
+            "config": {
+                "endpoints": {
+                    "byFile": reverse_lazy('editorjs_image_upload'),
+                    "byUrl": reverse_lazy('editorjs_image_by_url')
+                }
+            },
         },
         'Header': {
             'class': 'Header',

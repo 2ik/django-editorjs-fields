@@ -1,7 +1,7 @@
 from django.contrib.admin.views.decorators import staff_member_required
 from django.urls import path
 
-from .views import ImageUploadView, LinkToolView, ImageByUrl
+from .views import ImageByUrl, ImageUploadView, LinkToolView
 
 urlpatterns = [
     path(
