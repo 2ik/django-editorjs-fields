@@ -163,10 +163,12 @@
   // Event
   if (typeof django === "object" && django.jQuery) {
     django.jQuery(document).on("formset:added", function (event, $row) {
-      var textarea = $row.find("[data-editorjs-textarea]").get(0)
+      var areas = $row.find("[data-editorjs-textarea]").get()
 
-      if (textarea) {
-        initEditorJsField(textarea)
+      if (areas) {
+        for (let i = 0; i < areas.length; i++) {
+          initEditorJsField(areas[i])
+        }
       }
     })
   }
