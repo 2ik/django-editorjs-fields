@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 
 DEBUG = getattr(settings, "DEBUG", False)
 
-VERSION = getattr(settings, "EDITORJS_VERSION", '2.22.2')
+VERSION = getattr(settings, "EDITORJS_VERSION", '2.25.0')
 
 # ATTACHMENT_REQUIRE_AUTHENTICATION = str(
 #     getattr(settings, "EDITORJS_ATTACHMENT_REQUIRE_AUTHENTICATION", True)
