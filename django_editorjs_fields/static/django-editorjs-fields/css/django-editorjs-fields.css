@@ -1,101 +1,164 @@
 div[data-editorjs-holder] {
-  display: inline-block;
-  width: 100%;
-  max-width: 750px;
-  padding: 1.5em 1em;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #fcfeff;
+	display: inline-block;
+	width: 100%;
+	max-width: 750px;
+	padding: 1.5em 1em;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background-color: #fcfeff;
 }
+
 .codex-editor .ce-rawtool__textarea {
-  background-color: #010e15;
-  color: #ccced2;
+	background-color: #010e15;
+	color: #ccced2;
 }
+
 .codex-editor .cdx-list {
-  margin: 0;
-  padding-left: 32px;
-  outline: none;
+	margin: 0;
+	padding-left: 32px;
+	outline: none;
 }
+
 .codex-editor .cdx-list__item {
-  padding: 8px;
-  line-height: 1.4em;
-  list-style: inherit;
+	padding: 8px;
+	line-height: 1.4em;
+	list-style: inherit;
 }
+
 .codex-editor .cdx-checklist__item-text {
-  align-self: center;
+	align-self: center;
 }
+
 .codex-editor .ce-header {
-  padding: 1em 0;
-  margin: 0;
-  margin-bottom: -1em;
-  line-height: 1.4em;
-  outline: none;
-  background: transparent;
-  color: #000;
-  font-weight: 800;
-  text-transform: initial;
+	padding: 1em 0;
+	margin: 0;
+	margin-bottom: -1em;
+	line-height: 1.4em;
+	outline: none;
+	background: transparent;
+	color: #000;
+	font-weight: 800;
+	text-transform: initial;
 }
+
 .codex-editor h2.ce-header {
-  font-size: 1.5em;
+	font-size: 1.5em;
 }
+
 .codex-editor h3.ce-header {
-  font-size: 1.3em;
+	font-size: 1.3em;
 }
+
 .codex-editor h4.ce-header {
-  font-size: 1.1em;
+	font-size: 1.1em;
 }
+
 .codex-editor blockquote {
-  border: initial;
-  margin: initial;
-  color: initial;
-  font-size: inherit;
+	border: initial;
+	margin: initial;
+	color: initial;
+	font-size: inherit;
 }
+
 .codex-editor .wrapper .cdx-button {
-  display: none;
+	display: none;
 }
+
 .codex-editor .link-tool__progress {
-  float: initial;
-  width: 100%;
-  line-height: initial;
-  padding: initial;
+	float: initial;
+	width: 100%;
+	line-height: initial;
+	padding: initial;
 }
+
 @media (max-width: 767px) {
-  div[data-editorjs-holder] {
-    width: auto;
-  }
-  .aligned .form-row,
-  .aligned .form-row > div {
-    flex-direction: column;
-  }
+	div[data-editorjs-holder] {
+		width: auto;
+	}
+
+	.aligned .form-row,
+	.aligned .form-row>div {
+		flex-direction: column;
+	}
 }
+
 @media (prefers-color-scheme: dark) {
-  .change-form #container #content-main div[data-editorjs-holder] {
-    border: 1px solid var(--border-color);
-    background-color: var(--body-bg);
-  }
-  .change-form #container #content-main .link-tool__input {
-    color: var(--primary);
-  }
-  .change-form #container #content-main .codex-editor .ce-header,
-  .change-form #container #content-main .codex-editor blockquote {
-    color: var(--body-fg);
-  }
-  .change-form #container #content-main .codex-editor .ce-rawtool__textarea {
-    background-color: #264b5d;
-    color: #fbfbfb;
-  }
-  .change-form #container #content-main .cdx-marker {
-    background: #fff03b;
-  }
-  .change-form #container #content-main .ce-inline-toolbar {
-    color: #000;
-  }
-  .change-form #container #content-main ::-moz-selection,
-  .change-form #container #content-main ::selection {
-    color: #fff;
-    background: #616161;
-  }
-  .change-form #container #content-main .ce-block--selected .ce-block__content {
-    background: #426b8a;
-  }
+
+	.tc-popover,
+	.tc-wrap {
+		--color-border: #4c6b7a !important;
+		--color-background: #264b5d !important;
+		--color-background-hover: #162a34 !important;
+		--color-text-secondary: #fbfbfb !important;
+	}
+
+	.change-form #container #content-main div[data-editorjs-holder] {
+		border: 1px solid var(--border-color);
+		background-color: var(--body-bg);
+	}
+
+	.change-form #container #content-main .link-tool__input {
+		color: var(--primary);
+	}
+
+	.change-form #container #content-main .codex-editor .ce-header,
+	.change-form #container #content-main .codex-editor blockquote {
+		color: var(--body-fg);
+	}
+
+	.change-form #container #content-main .codex-editor .ce-rawtool__textarea {
+		background-color: #264b5d;
+		color: #fbfbfb;
+	}
+
+	.change-form #container #content-main .cdx-marker {
+		background: #fff03b;
+	}
+
+	.change-form #container #content-main .ce-inline-toolbar {
+		color: #000;
+	}
+
+	.change-form #container #content-main ::-moz-selection,
+	.change-form #container #content-main ::selection {
+		color: #fff;
+		background: #616161;
+	}
+
+	.change-form #container #content-main .ce-block--selected .ce-block__content {
+		background: #426b8a;
+	}
+
+	.change-form #container #content-main .codex-editor svg {
+		fill: #fff
+	}
+
+	.change-form #container #content-main .ce-toolbar__plus:hover,
+	.change-form #container #content-main .ce-toolbar__settings-btn:hover {
+		background-color: #264b5d;
+	}
+
+	.change-form #container #content-main .ce-popover__item-icon,
+	.change-form #container #content-main .ce-conversion-tool__icon {
+		background: #2fa9a9;
+	}
+
+	.change-form #container #content-main .ce-popover,
+	.change-form #container #content-main .ce-settings,
+	.change-form #container #content-main .ce-inline-toolbar,
+	.change-form #container #content-main .ce-conversion-toolbar {
+		background-color: #264b5d;
+		border-color: #4c6b7a;
+		color: #fbfbfb
+	}
+
+	.change-form #container #content-main .ce-popover__item:hover,
+	.change-form #container #content-main .ce-settings__button:hover,
+	.change-form #container #content-main .cdx-settings-button:hover,
+	.change-form #container #content-main .ce-inline-toolbar__dropdown:hover,
+	.change-form #container #content-main .ce-inline-tool:hover,
+	.change-form #container #content-main .ce-conversion-tool:hover {
+		background-color: #162a34;
+		color: #fff
+	}
 }

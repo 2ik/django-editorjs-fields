@@ -88,7 +88,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'test_django',
         'USER': 'postgres',
-        'PASSWORD': 'toor',
+        'PASSWORD': 'postgres',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
@@ -167,7 +167,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 MEDIA_URL = "/media/"
 
 # django_editorjs_fields
-EDITORJS_VERSION = '2.22.3'
+EDITORJS_VERSION = '2.25.0'
 # EDITORJS_IMAGE_NAME_ORIGINAL = True
 # EDITORJS_IMAGE_UPLOAD_PATH_DATE = None
 # EDITORJS_IMAGE_NAME = lambda filename, **_: f"{filename}_12345"
