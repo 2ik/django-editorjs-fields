@@ -83,7 +83,7 @@ class EditorJsWidget(widgets.Textarea):
         plugins = self.plugins or PLUGINS
 
         if plugins:
-            js_list += ['//cdn.jsdelivr.net/npm/' + p for p in plugins]
+            js_list += [(p if p.startswith('https://') else ('//cdn.jsdelivr.net/npm/' + p)) for p in plugins]
 
         js_list.append('django-editorjs-fields/js/django-editorjs-fields.js')
 
