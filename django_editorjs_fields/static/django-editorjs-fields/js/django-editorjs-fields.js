@@ -76,6 +76,15 @@
       for (var plugin in tools) {
         var cls = tools[plugin].class
 
+        if (plugin === 'embed') {
+          var services = Object.entries((tools[plugin].config || {}).services || {})
+          for (var i = 0; i < services.length; i++) {
+            if (services[i][1].regex) {
+              tools[plugin].config.services[services[i][0]].regex = new RegExp(services[i][1].regex)
+            }
+          }
+        }
+
         if (cls && window[cls] != undefined) {
           tools[plugin].class = eval(cls)
           continue
