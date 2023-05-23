@@ -106,19 +106,21 @@ CONFIG_TOOLS = getattr(
     }
 )
 
-PLUGINS_KEYS = {
-    '@editorjs/image': 'Image',
-    '@editorjs/header': 'Header',
-    '@editorjs/checklist': 'Checklist',
-    '@editorjs/list': 'List',
-    '@editorjs/quote': 'Quote',
-    '@editorjs/raw': 'Raw',
-    '@editorjs/code': 'Code',
-    '@editorjs/inline-code': 'InlineCode',
-    '@editorjs/embed': 'Embed',
-    '@editorjs/delimiter': 'Delimiter',
-    '@editorjs/warning': 'Warning',
-    '@editorjs/link': 'LinkTool',
-    '@editorjs/marker': 'Marker',
-    '@editorjs/table': 'Table',
-}
+PLUGINS_KEYS = getattr(
+    settings, "EDITORJS_PLUGINS_KEYS", {
+        '@editorjs/image': 'Image',
+        '@editorjs/header': 'Header',
+        '@editorjs/checklist': 'Checklist',
+        '@editorjs/list': 'List',
+        '@editorjs/quote': 'Quote',
+        '@editorjs/raw': 'Raw',
+        '@editorjs/code': 'Code',
+        '@editorjs/inline-code': 'InlineCode',
+        '@editorjs/embed': 'Embed',
+        '@editorjs/delimiter': 'Delimiter',
+        '@editorjs/warning': 'Warning',
+        '@editorjs/link': 'LinkTool',
+        '@editorjs/marker': 'Marker',
+        '@editorjs/table': 'Table',
+    }
+)
