@@ -11,6 +11,16 @@ VERSION = getattr(settings, "EDITORJS_VERSION", '2.30.8')
 #     getattr(settings, "EDITORJS_ATTACHMENT_REQUIRE_AUTHENTICATION", True)
 # )
 
+EDITORJS_SCRIPT_PATH = getattr(
+    settings,
+    "EDITORJS_SCRIPT_PATH",
+    '//cdn.jsdelivr.net/npm/@editorjs/editorjs@' + VERSION,
+)
+
+PLUGINS_SCRIPT_PATH = getattr(
+    settings, "PLUGINS_SCRIPT_PATH", '//cdn.jsdelivr.net/npm/'
+)
+
 EMBED_HOSTNAME_ALLOWED = str(
     getattr(settings, "EDITORJS_EMBED_HOSTNAME_ALLOWED", (
         'player.vimeo.com',

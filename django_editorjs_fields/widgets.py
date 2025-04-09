@@ -8,7 +8,7 @@ from django.utils.functional import Promise, cached_property
 from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
 
-from .config import CONFIG_TOOLS, PLUGINS, PLUGINS_KEYS, VERSION
+from .config import CONFIG_TOOLS, PLUGINS, PLUGINS_KEYS, EDITORJS_SCRIPT_PATH, PLUGINS_SCRIPT_PATH
 
 
 class LazyEncoder(DjangoJSONEncoder):
@@ -76,14 +76,12 @@ class EditorJsWidget(widgets.Textarea):
 
     @cached_property
     def media(self):
-        js_list = [
-            '//cdn.jsdelivr.net/npm/@editorjs/editorjs@' + VERSION  # lib
-        ]
+        js_list = [EDITORJS_SCRIPT_PATH]  # lib
 
         plugins = self.plugins or PLUGINS
 
         if plugins:
-            js_list += ['//cdn.jsdelivr.net/npm/' + p for p in plugins]
+            js_list += [PLUGINS_SCRIPT_PATH + p for p in plugins]
 
         js_list.append('django-editorjs-fields/js/django-editorjs-fields.js')
 
