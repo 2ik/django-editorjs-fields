@@ -75,8 +75,15 @@
         const cls = tools[plugin].class
 
         if (cls && typeof cls === "string") {
-          if (window[cls] !== undefined) {
-            tools[plugin].class = window[cls]
+          let ctor = window[cls]
+
+          // Handle ESM-style exports: { default: Constructor }
+          if (ctor && typeof ctor === "object" && ctor.default && typeof ctor.default === "function") {
+            ctor = ctor.default
+          }
+
+          if (typeof ctor === "function") {
+            tools[plugin].class = ctor
           } else {
             delete tools[plugin]
             logError("[" + plugin + "] Class " + cls + " Not Found")
