@@ -14,8 +14,12 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
-from .config import (IMAGE_NAME, IMAGE_NAME_ORIGINAL, IMAGE_UPLOAD_PATH,
-                     IMAGE_UPLOAD_PATH_DATE)
+from .config import (
+    IMAGE_NAME,
+    IMAGE_NAME_ORIGINAL,
+    IMAGE_UPLOAD_PATH,
+    IMAGE_UPLOAD_PATH_DATE,
+)
 from .utils import storage
 
 LOGGER = logging.getLogger('django_editorjs_fields')
@@ -96,7 +100,7 @@ class LinkToolView(View):
 
         LOGGER.debug('Starting to get meta for: %s', url)
 
-        if not any([url.startswith(s) for s in ('http://', 'https://')]):
+        if not any(url.startswith(s) for s in ('http://', 'https://')):
             LOGGER.debug('Adding the http protocol to the link: %s', url)
             url = 'http://' + url
 

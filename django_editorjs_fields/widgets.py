@@ -1,4 +1,3 @@
-import json
 
 from django.core.serializers.json import DjangoJSONEncoder
 from django.forms import Media, widgets

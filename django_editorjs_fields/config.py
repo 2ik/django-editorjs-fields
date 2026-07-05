@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 
 DEBUG = getattr(settings, "DEBUG", False)
 
-VERSION = getattr(settings, "EDITORJS_VERSION", '2.25.0')
+VERSION = getattr(settings, "EDITORJS_VERSION", '2.31.6')
 
 # ATTACHMENT_REQUIRE_AUTHENTICATION = str(
 #     getattr(settings, "EDITORJS_ATTACHMENT_REQUIRE_AUTHENTICATION", True)
@@ -86,7 +86,7 @@ CONFIG_TOOLS = getattr(
             }
         },
         'Checklist': {'class': 'Checklist', 'inlineToolbar': True},
-        'List': {'class': 'List', 'inlineToolbar': True},
+        'List': {'class': 'EditorjsList', 'inlineToolbar': True},
         'Quote': {'class': 'Quote', 'inlineToolbar': True},
         'Raw': {'class': 'RawTool'},
         'Code': {'class': 'CodeTool'},
