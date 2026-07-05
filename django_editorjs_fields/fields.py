@@ -57,14 +57,16 @@ class EditorJsFieldMixin:
 
     def validate_embed(self, value):
         for item in value.get('blocks', []):
-            type = item.get('type', '').lower()
-            if type == 'embed':
-                embed = item['data']['embed']
-                hostname = get_hostname_from_url(embed)
+            if item.get('type', '').lower() != 'embed':
+                continue
+            embed = item.get('data', {}).get('embed')
+            if not embed:
+                continue
+            hostname = get_hostname_from_url(embed)
 
-                if hostname not in EMBED_HOSTNAME_ALLOWED:
-                    raise ValidationError(
-                        hostname + ' is not allowed in EDITORJS_EMBED_HOSTNAME_ALLOWED')
+            if hostname not in EMBED_HOSTNAME_ALLOWED:
+                raise ValidationError(
+                    hostname + ' is not allowed in EDITORJS_EMBED_HOSTNAME_ALLOWED')
 
     def clean(self, value, model_instance):
         if value and value != 'null':

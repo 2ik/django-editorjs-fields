@@ -1,7 +1,6 @@
 import json
 
 from django import template
-from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
 register = template.Library()
@@ -13,7 +12,11 @@ def generate_paragraph(data):
 
 
 def generate_list(data):
-    list_li = ''.join([f'<li>{item}</li>' for item in data.get('items', [])])
+    items = data.get('items', [])
+    list_li = ''.join(
+        f'<li>{item.get("content", "") if isinstance(item, dict) else item}</li>'
+        for item in items
+    )
     tag = 'ol' if data.get('style') == 'ordered' else 'ul'
     return f'<{tag}>{list_li}</{tag}>'
 
@@ -78,13 +81,14 @@ def generate_quote(data):
     if caption:
         caption = f'<cite>{caption}</cite>'
 
-    classes = f'align-{alignment}' if alignment else None
+    classes = f'align-{alignment}' if alignment else ''
+    class_attr = f' class="{classes}"' if classes else ''
 
-    return f'<blockquote class="{classes}">{text}{caption}</blockquote>'
+    return f'<blockquote{class_attr}>{text}{caption}</blockquote>'
 
 
 def generate_code(data):
-    code = escape(data.get('code', ''))
+    code = data.get('code', '')
     return f'<pre><code class="code">{code}</code></pre>'
 
 
@@ -110,7 +114,7 @@ def generate_link(data):
 
     title = meta.get('title', '')
     description = meta.get('description', '')
-    image = meta.get('image')
+    image = meta.get('image') or {}
 
     wrapper = f'<div class="link-block"><a href="{link}" target="_blank" rel="nofollow noopener noreferrer">'
 

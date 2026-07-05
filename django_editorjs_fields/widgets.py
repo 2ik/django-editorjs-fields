@@ -3,9 +3,14 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.forms import Media, widgets
 from django.forms.renderers import get_default_renderer
 from django.utils.encoding import force_str
-from django.utils.functional import Promise, cached_property
+from django.utils.functional import Promise
 from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
+
+try:
+    from django.utils.functional import cached_property
+except ImportError:
+    from functools import cached_property
 
 from .config import CONFIG_TOOLS, PLUGINS, PLUGINS_KEYS, VERSION
 

@@ -143,6 +143,7 @@
     }
 
     editorConfig.onChange = function () {
+      if (!editor) return
       editor
         .save()
         .then(function (data) {
@@ -157,7 +158,7 @@
         })
     }
 
-    const editor = new EditorJS(editorConfig)
+    let editor = new EditorJS(editorConfig)
     holder.setAttribute("data-processed", 1)
     textarea.setAttribute("data-processed", 1)
   }

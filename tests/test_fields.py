@@ -121,3 +121,29 @@ class TestEditorJsJSONField:
     def test_get_internal_type(self):
         field = EditorJsJSONField()
         assert field.get_internal_type() in ('JSONField', 'TextField')
+
+
+class TestValidateEmbedEdgeCases:
+    def test_embed_without_data_key(self):
+        """Block with type embed but no data key doesn't crash"""
+        data = {'blocks': [{'type': 'embed'}]}
+        field = EditorJsTextField()
+        result = field.clean(json.dumps(data), None)
+        assert result is not None
+
+    def test_embed_without_embed_url(self):
+        """Block with type embed but no embed URL doesn't crash"""
+        data = {'blocks': [{'type': 'embed', 'data': {}}]}
+        field = EditorJsTextField()
+        result = field.clean(json.dumps(data), None)
+        assert result is not None
+
+    def test_embed_hostname_check_uses_collection(self):
+        """EMBED_HOSTNAME_ALLOWED is a tuple, not a string"""
+        from django_editorjs_fields.config import EMBED_HOSTNAME_ALLOWED
+        assert isinstance(EMBED_HOSTNAME_ALLOWED, (list, tuple))
+        # Random hostname should be rejected
+        data = {'blocks': [{'type': 'embed', 'data': {'embed': 'https://totally-random-site.example.com/x'}}]}
+        field = EditorJsTextField()
+        with pytest.raises(ValidationError):
+            field.clean(json.dumps(data), None)
