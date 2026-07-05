@@ -70,12 +70,45 @@ class TestEditorJsFilter:
     def test_code(self, editorjs_context):
         data = {'blocks': [{'type': 'code', 'data': {'code': 'print("hi")'}}]}
         html = editorjs_context(json.dumps(data))
-        assert '<code class="code">print("hi")</code>' in html
+        assert '<pre><code class="code">' in html
+        assert '&quot;hi&quot;' in html
 
     def test_raw(self, editorjs_context):
         data = {'blocks': [{'type': 'raw', 'data': {'html': '<span>raw</span>'}}]}
         html = editorjs_context(json.dumps(data))
         assert '<span>raw</span>' in html
+
+    def test_xss_in_code(self, editorjs_context):
+        """HTML tags in code blocks are escaped"""
+        data = {'blocks': [{'type': 'code', 'data': {'code': '<div hidden>content</div>'}}]}
+        html = editorjs_context(json.dumps(data))
+        assert '<div hidden>' not in html
+        assert '&lt;div hidden&gt;' in html
+
+    def test_inline_formatting_in_paragraph(self, editorjs_context):
+        """Inline formatting from Editor.js is preserved"""
+        data = {'blocks': [{'type': 'paragraph', 'data': {'text': 'Hello <b>world</b>'}}]}
+        html = editorjs_context(json.dumps(data))
+        assert '<b>world</b>' in html
+
+    def test_inline_formatting_in_header(self, editorjs_context):
+        """Inline formatting in headers is preserved"""
+        data = {'blocks': [{'type': 'header', 'data': {'text': 'Title <i>subtitle</i>', 'level': 2}}]}
+        html = editorjs_context(json.dumps(data))
+        assert '<i>subtitle</i>' in html
+
+    def test_inline_formatting_in_list(self, editorjs_context):
+        """Inline formatting in list items is preserved"""
+        data = {'blocks': [{'type': 'list', 'data': {'items': ['<b>bold</b> item'], 'style': 'unordered'}}]}
+        html = editorjs_context(json.dumps(data))
+        assert '<li><b>bold</b> item</li>' in html
+
+    def test_inline_formatting_in_quote(self, editorjs_context):
+        """Inline formatting in quotes is preserved"""
+        data = {'blocks': [{'type': 'quote', 'data': {'text': '<u>emphasized</u> quote', 'caption': '<b>Author</b>'}}]}
+        html = editorjs_context(json.dumps(data))
+        assert '<u>emphasized</u> quote' in html
+        assert '<cite><b>Author</b></cite>' in html
 
     def test_warning(self, editorjs_context):
         data = {'blocks': [{'type': 'warning', 'data': {'title': 'Warn', 'message': 'Be careful'}}]}
@@ -118,8 +151,7 @@ class TestEditorJsFilter:
         assert '<p>direct dict</p>' in html
 
     def test_nbsp_replacement(self, editorjs_context):
-        """&nbsp; in paragraph text is replaced with space"""
-        data = {'blocks': [{'type': 'paragraph', 'data': {'text': 'Hello&nbsp;World'}}]}
+        """Actual non-breaking space character passes through"""
+        data = {'blocks': [{'type': 'paragraph', 'data': {'text': 'Hello\u00a0World'}}]}
         html = editorjs_context(json.dumps(data))
-        assert '&nbsp;' not in html
-        assert 'Hello World' in html
+        assert '\xa0' in html
