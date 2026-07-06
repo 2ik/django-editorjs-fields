@@ -10,4 +10,6 @@ __pycache__
 #egg's specific
 *.egg-info
 
-db.sqlite3
+.pytest_cache/
+.tox/
+*.log

@@ -1,12 +1,16 @@
-import json
 
 from django.core.serializers.json import DjangoJSONEncoder
 from django.forms import Media, widgets
 from django.forms.renderers import get_default_renderer
 from django.utils.encoding import force_str
-from django.utils.functional import Promise, cached_property
+from django.utils.functional import Promise
 from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
+
+try:
+    from django.utils.functional import cached_property
+except ImportError:
+    from functools import cached_property
 
 from .config import CONFIG_TOOLS, PLUGINS, PLUGINS_KEYS, VERSION
 
@@ -37,42 +41,38 @@ class EditorJsWidget(widgets.Textarea):
         super().__init__(**kwargs)
 
     def configuration(self):
-        tools = {}
-        config = self.config or {}
+        config = dict(self.config) if self.config else {}
 
         if self.plugins or self.tools:
-            custom_tools = self.tools or {}
-            # get name packages without version
-            plugins = ['@'.join(p.split('@')[:2])
-                       for p in self.plugins or PLUGINS]
+            tools = self._build_tools()
+        else:
+            tools = dict(CONFIG_TOOLS)
 
-            for plugin in plugins:
-                plugin_key = PLUGINS_KEYS.get(plugin)
-
-                if not plugin_key:
-                    continue
-
-                plugin_tools = custom_tools.get(
-                    plugin_key) or CONFIG_TOOLS.get(plugin_key) or {}
-                plugin_class = plugin_tools.get('class')
-
-                if plugin_class:
-
-                    tools[plugin_key] = custom_tools.get(
-                        plugin_key, CONFIG_TOOLS.get(plugin_key)
-                    )
-
-                    tools[plugin_key]['class'] = plugin_class
-
-                    custom_tools.pop(plugin_key, None)
-
-            if custom_tools:
-                tools.update(custom_tools)
-        else:  # default
-            tools.update(CONFIG_TOOLS)
-
-        config.update(tools=tools)
+        config['tools'] = tools
         return config
+
+    def _build_tools(self):
+        tools = {}
+        custom_tools = dict(self.tools) if self.tools else {}
+
+        # Strip versions: '@editorjs/header@2.7.0' -> '@editorjs/header'
+        plugins = ['@'.join(p.split('@')[:2]) for p in self.plugins or PLUGINS]
+
+        for plugin in plugins:
+            plugin_key = PLUGINS_KEYS.get(plugin)
+            if not plugin_key:
+                continue
+
+            entry = custom_tools.get(plugin_key) or CONFIG_TOOLS.get(plugin_key)
+            if not entry or 'class' not in entry:
+                continue
+
+            tools[plugin_key] = dict(entry)
+            tools[plugin_key]['class'] = entry['class']
+            custom_tools.pop(plugin_key, None)
+
+        tools.update(custom_tools)
+        return tools
 
     @cached_property
     def media(self):
@@ -83,7 +83,7 @@ class EditorJsWidget(widgets.Textarea):
         plugins = self.plugins or PLUGINS
 
         if plugins:
-            js_list += ['//cdn.jsdelivr.net/npm/' + p for p in plugins]
+            js_list += [p if p.startswith('https://') else ('//cdn.jsdelivr.net/npm/' + p) for p in plugins]
 
         js_list.append('django-editorjs-fields/js/django-editorjs-fields.js')
 

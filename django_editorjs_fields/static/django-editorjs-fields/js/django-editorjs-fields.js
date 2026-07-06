@@ -1,10 +1,10 @@
 ;(function () {
-  var pluginName = "django_editorjs_fields"
-  var pluginHelp =
+  const pluginName = "django_editorjs_fields"
+  const pluginHelp =
     "Write about the issue here: https://github.com/2ik/django-editorjs-fields/issues"
 
   function initEditorJsPlugin() {
-    var fields = document.querySelectorAll("[data-editorjs-textarea]")
+    const fields = document.querySelectorAll("[data-editorjs-textarea]")
 
     for (let i = 0; i < fields.length; i++) {
       initEditorJsField(fields[i])
@@ -17,26 +17,25 @@
       return false
     }
 
-    var id = textarea.getAttribute("id")
+    const id = textarea.getAttribute("id")
 
     if (!id) {
       logError("empty field 'id'")
-      holder.remove()
       return false
     }
 
-    var holder = document.getElementById(id + "_editorjs_holder")
+    const holder = document.getElementById(id + "_editorjs_holder")
 
     if (!holder) {
       logError("holder not found")
-      holder.remove()
       return false
     }
 
     if (id.indexOf("__prefix__") !== -1) return
 
+    let config
     try {
-      var config = JSON.parse(textarea.getAttribute("data-config"))
+      config = JSON.parse(textarea.getAttribute("data-config"))
     } catch (error) {
       console.error(error)
       logError(
@@ -46,7 +45,7 @@
       return false
     }
 
-    var text = textarea.value.trim()
+    let text = textarea.value.trim()
 
     if (text) {
       try {
@@ -63,26 +62,33 @@
 
     textarea.style.display = "none" // remove old textarea
 
-    var editorConfig = {
-      id: id,
-      holder: holder,
+    const editorConfig = {
+      id,
+      holder,
       data: text,
     }
 
     if ("tools" in config) {
-      // set config
-      var tools = config.tools
+      const tools = config.tools
 
-      for (var plugin in tools) {
-        var cls = tools[plugin].class
+      for (const plugin in tools) {
+        const cls = tools[plugin].class
 
-        if (cls && window[cls] != undefined) {
-          tools[plugin].class = eval(cls)
-          continue
+        if (cls && typeof cls === "string") {
+          let ctor = window[cls]
+
+          // Handle ESM-style exports: { default: Constructor }
+          if (ctor && typeof ctor === "object" && ctor.default && typeof ctor.default === "function") {
+            ctor = ctor.default
+          }
+
+          if (typeof ctor === "function") {
+            tools[plugin].class = ctor
+          } else {
+            delete tools[plugin]
+            logError("[" + plugin + "] Class " + cls + " Not Found")
+          }
         }
-
-        delete tools[plugin]
-        logError("[" + plugin + "] Class " + cls + " Not Found")
       }
 
       editorConfig.tools = tools
@@ -137,6 +143,7 @@
     }
 
     editorConfig.onChange = function () {
+      if (!editor) return
       editor
         .save()
         .then(function (data) {
@@ -150,8 +157,10 @@
           console.log("save error: ", error)
         })
     }
-    var editor = new EditorJS(editorConfig)
+
+    let editor = new EditorJS(editorConfig)
     holder.setAttribute("data-processed", 1)
+    textarea.setAttribute("data-processed", 1)
   }
 
   function logError(msg) {
@@ -160,10 +169,22 @@
 
   addEventListener("DOMContentLoaded", initEditorJsPlugin)
 
-  // Event
+  // Event — formset:added (Django 3.2+)
   if (typeof django === "object" && django.jQuery) {
     django.jQuery(document).on("formset:added", function (event, $row) {
-      var areas = $row.find("[data-editorjs-textarea]").get()
+      let areas
+
+      if (event.detail && event.detail.$row) {
+        // Django 4.1+: CustomEvent with $row in detail
+        const row = event.detail.$row[0] || event.detail.$row
+        areas = row.querySelectorAll("[data-editorjs-textarea]")
+      } else if ($row && $row.length) {
+        // Django <=4.0: jQuery event with $row as second argument
+        areas = $row.find("[data-editorjs-textarea]").get()
+      } else {
+        // Fallback: find unprocessed textareas
+        areas = event.target.querySelectorAll("[data-editorjs-textarea]:not([data-processed])")
+      }
 
       if (areas) {
         for (let i = 0; i < areas.length; i++) {

@@ -7,25 +7,29 @@ register = template.Library()
 
 
 def generate_paragraph(data):
-    text = data.get('text').replace('&nbsp;', ' ')
+    text = data.get('text', '').replace('&nbsp;', ' ')
     return f'<p>{text}</p>'
 
 
 def generate_list(data):
-    list_li = ''.join([f'<li>{item}</li>' for item in data.get('items')])
+    items = data.get('items', [])
+    list_li = ''.join(
+        f'<li>{item.get("content", "") if isinstance(item, dict) else item}</li>'
+        for item in items
+    )
     tag = 'ol' if data.get('style') == 'ordered' else 'ul'
     return f'<{tag}>{list_li}</{tag}>'
 
 
 def generate_header(data):
-    text = data.get('text').replace('&nbsp;', ' ')
+    text = data.get('text', '').replace('&nbsp;', ' ')
     level = data.get('level')
     return f'<h{level}>{text}</h{level}>'
 
 
 def generate_image(data):
-    url = data.get('file', {}).get('url')
-    caption = data.get('caption')
+    url = data.get('file', {}).get('url', '')
+    caption = data.get('caption', '')
     classes = []
 
     if data.get('stretched'):
@@ -51,14 +55,15 @@ def generate_table(data):
     for row in rows:
         table += '<tr>'
         for cell in row:
-            table += f'<td>{cell}</td>'
+            table += f'<td>{str(cell)}</td>'
         table += '</tr>'
 
     return f'<table>{table}</table>'
 
 
 def generate_warning(data):
-    title, message = data.get('title'), data.get('message')
+    title = data.get('title', '')
+    message = data.get('message', '')
 
     if title:
         title = f'<div class="alert__title">{title}</div>'
@@ -70,20 +75,21 @@ def generate_warning(data):
 
 def generate_quote(data):
     alignment = data.get('alignment')
-    caption = data.get('caption')
-    text = data.get('text')
+    caption = data.get('caption', '')
+    text = data.get('text', '')
 
     if caption:
         caption = f'<cite>{caption}</cite>'
 
-    classes = f'align-{alignment}' if alignment else None
+    classes = f'align-{alignment}' if alignment else ''
+    class_attr = f' class="{classes}"' if classes else ''
 
-    return f'<blockquote class="{classes}">{text}{caption}</blockquote>'
+    return f'<blockquote{class_attr}>{text}{caption}</blockquote>'
 
 
 def generate_code(data):
-    code = data.get('code')
-    return f'<code class="code">{code}</code>'
+    code = data.get('code', '')
+    return f'<pre><code class="code">{code}</code></pre>'
 
 
 def generate_raw(data):
@@ -91,9 +97,9 @@ def generate_raw(data):
 
 
 def generate_embed(data):
-    service = data.get('service')
-    caption = data.get('caption')
-    embed = data.get('embed')
+    service = data.get('service', '')
+    caption = data.get('caption', '')
+    embed = data.get('embed', '')
     iframe = f'<iframe src="{embed}" allow="autoplay" allowfullscreen="allowfullscreen"></iframe>'
 
     return f'<div class="embed {service}">{iframe}{caption}</div>'
@@ -106,11 +112,11 @@ def generate_link(data):
     if not link or not meta:
         return ''
 
-    title = meta.get('title')
-    description = meta.get('description')
-    image = meta.get('image')
+    title = meta.get('title', '')
+    description = meta.get('description', '')
+    image = meta.get('image') or {}
 
-    wrapper = f'<div class="link-block"><a href="{ link }" target="_blank" rel="nofollow noopener noreferrer">'
+    wrapper = f'<div class="link-block"><a href="{link}" target="_blank" rel="nofollow noopener noreferrer">'
 
     if image.get('url'):
         image_url = image.get('url')

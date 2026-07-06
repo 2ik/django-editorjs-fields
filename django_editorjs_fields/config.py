@@ -5,31 +5,24 @@ from django.urls import reverse_lazy
 
 DEBUG = getattr(settings, "DEBUG", False)
 
-VERSION = getattr(settings, "EDITORJS_VERSION", '2.25.0')
+VERSION = getattr(settings, "EDITORJS_VERSION", '2.31.6')
 
-# ATTACHMENT_REQUIRE_AUTHENTICATION = str(
-#     getattr(settings, "EDITORJS_ATTACHMENT_REQUIRE_AUTHENTICATION", True)
-# )
-
-EMBED_HOSTNAME_ALLOWED = str(
-    getattr(settings, "EDITORJS_EMBED_HOSTNAME_ALLOWED", (
-        'player.vimeo.com',
-        'www.youtube.com',
-        'coub.com',
-        'vine.co',
-        'imgur.com',
-        'gfycat.com',
-        'player.twitch.tv',
-        'player.twitch.tv',
-        'music.yandex.ru',
-        'codepen.io',
-        'www.instagram.com',
-        'twitframe.com',
-        'assets.pinterest.com',
-        'www.facebook.com',
-        'www.aparat.com',
-    ))
-)
+EMBED_HOSTNAME_ALLOWED = getattr(settings, "EDITORJS_EMBED_HOSTNAME_ALLOWED", (
+    'player.vimeo.com',
+    'www.youtube.com',
+    'coub.com',
+    'vine.co',
+    'imgur.com',
+    'gfycat.com',
+    'player.twitch.tv',
+    'music.yandex.ru',
+    'codepen.io',
+    'www.instagram.com',
+    'twitframe.com',
+    'assets.pinterest.com',
+    'www.facebook.com',
+    'www.aparat.com',
+))
 
 IMAGE_UPLOAD_PATH = str(
     getattr(settings, "EDITORJS_IMAGE_UPLOAD_PATH", 'uploads/images/')
@@ -86,7 +79,7 @@ CONFIG_TOOLS = getattr(
             }
         },
         'Checklist': {'class': 'Checklist', 'inlineToolbar': True},
-        'List': {'class': 'List', 'inlineToolbar': True},
+        'List': {'class': 'EditorjsList', 'inlineToolbar': True},
         'Quote': {'class': 'Quote', 'inlineToolbar': True},
         'Raw': {'class': 'RawTool'},
         'Code': {'class': 'CodeTool'},
@@ -106,7 +99,7 @@ CONFIG_TOOLS = getattr(
     }
 )
 
-PLUGINS_KEYS = {
+_PLUGINS_KEYS_DEFAULTS = {
     '@editorjs/image': 'Image',
     '@editorjs/header': 'Header',
     '@editorjs/checklist': 'Checklist',
@@ -121,4 +114,13 @@ PLUGINS_KEYS = {
     '@editorjs/link': 'LinkTool',
     '@editorjs/marker': 'Marker',
     '@editorjs/table': 'Table',
+}
+
+_PLUGINS_KEYS_FROM_SETTINGS = getattr(
+    settings, 'EDITORJS_PLUGINS_KEYS', {}
+)
+
+PLUGINS_KEYS = {
+    **_PLUGINS_KEYS_DEFAULTS,
+    **_PLUGINS_KEYS_FROM_SETTINGS,
 }
